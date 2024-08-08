@@ -6562,6 +6562,14 @@ nav#header-nav ul.menu > li:hover {
   color: white !important;
 }
 
+#navbar-centered {
+  background: radial-gradient(
+    circle,
+    hsla(33, 92%, 47%, 1) 33%,
+    hsla(31, 100%, 36%, 1) 62%
+  );
+}
+
 nav#header-nav ul.menu > li:hover > a {
   color: white;
 }
