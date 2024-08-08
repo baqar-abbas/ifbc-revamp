@@ -92,7 +92,7 @@ const Header = ({
       className="sticky top-0 z-[999] "
     >
       <nav
-        className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0  "
+        className=" w-full flex flex-col items-center justify-center text-white bg-[rgba(252,251,251,0.53)] border-b-2 border-color-custom-dark-blue xl:border-0  "
         id="header-nav"
       >
         <div
