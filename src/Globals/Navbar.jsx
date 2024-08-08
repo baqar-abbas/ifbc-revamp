@@ -198,7 +198,8 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
             {/* {ye chaar links arhe hain tum path ki jaga label bhi use krskte the condition may id bhi use krskte aese same kaam krega } */}
 
             <NavLink to={item.path} style={style}>
-              {item.label}
+              {item.label} 
+              <span className="mx-5 font-normal">|</span>
             </NavLink>
           </li>
         ))}
