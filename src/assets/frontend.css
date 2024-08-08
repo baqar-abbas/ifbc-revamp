@@ -6563,9 +6563,9 @@ nav#header-nav ul.menu > li:hover {
   color: white !important;
 }
 
-nav#header-nav{
+/* nav#header-nav{
   position:absolute;
-}
+} */
 
 nav#header-nav ul.menu > li:hover > a {
   color: white;
