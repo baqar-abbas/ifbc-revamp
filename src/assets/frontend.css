@@ -12592,6 +12592,14 @@ blockquote {
   -webkit-tap-highlight-color: transparent;
   transform: translate3d(0, 0, 0);
 }
+#navbar-centered {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(235, 135, 12, 1) 25%,
+    rgba(183, 94, 0, 1) 86%,
+    rgba(183, 94, 0, 1) 100%
+  );
+}
 
 .check:before {
   content: "";

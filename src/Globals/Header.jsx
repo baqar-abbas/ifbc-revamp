@@ -97,11 +97,7 @@ const Header = ({
       >
         <div
           id="navbar-centered"
-          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3 background: radial-gradient(
-  circle,
-  hsla(33, 92%, 47%, 1) 33%,
-  hsla(31, 100%, 36%, 1) 62%
-);"
+          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3 "
         >
           {/* DETAILS */}
           <ul
