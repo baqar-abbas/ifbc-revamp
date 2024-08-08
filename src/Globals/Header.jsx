@@ -89,15 +89,19 @@ const Header = ({
       initial={{ y: 0 }}
       animate={{ y: hidden && window.innerWidth > 768 ? "-52%" : 0 }}
       id="main-header"
-      className="sticky top-0 z-[999]"
+      className="sticky top-0 z-[999] "
     >
       <nav
-        className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
+        className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0  "
         id="header-nav"
       >
         <div
           id="navbar-centered"
-          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3"
+          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3 background: radial-gradient(
+  circle,
+  hsla(33, 92%, 47%, 1) 33%,
+  hsla(31, 100%, 36%, 1) 62%
+);"
         >
           {/* DETAILS */}
           <ul
