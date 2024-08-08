@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.account-links {
+  @apply flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-custom-heading-color hover:bg-gray-300 focus:outline-none focus:bg-gray-100 cursor-pointer w-full;
+}
+
+.candidate-btn {
+  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
+}
+
+.candidate-inverted-btn {
+  @apply border-2 border-white bg-white  text-custom-dark-blue px-5  hover:text-white hover:bg-custom-heading-color transition-all duration-500 py-2  font-light text-sm;
+}
+
+.candidate-secondary-btn {
+  @apply border-2 
+  text-center border-custom-dark-blue bg-custom-dark-blue rounded-3xl  text-white px-5  hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2 font-light;
+}
+.candidate-funding-btn {
+  @apply border
+  text-center border-custom-dark-blue text-custom-dark-blue p-1.5 rounded transition-all duration-500   font-light;
+}
+
+.contact-input {
+  @apply bg-gray-50  text-gray-800 text-sm   block p-2 focus:outline-none placeholder:text-xs placeholder:text-gray-400 rounded-3xl;
+}
+
+.contact-select {
+  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400 rounded-3xl;
+}
+
+.candidate-normal-input {
+  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1;
+}
+
+.candidate-label {
+  @apply text-black text-sm mt-3 mx-2;
+}
+.candidate-questions {
+  @apply text-black  text-sm mt-2;
+}
+.candidate-radio-text {
+  @apply block text-custom-heading-color text-sm;
+}
+
+.candidate-sub-heading {
+  @apply max-md:text-xl md:text-2xl font-bold text-custom-heading-color text-center uppercase my-3 flex max-md:flex-col items-center gap-2 justify-center;
+}
+
+.candidate-small-heading {
+  @apply text-2xl font-bold text-custom-dark-blue text-center uppercase flex items-center gap-2 justify-center max-md:w-full;
+}
+
+.candidate-sub-childs {
+  @apply flex flex-col w-full my-3 gap-2 max-w-72 justify-between;
+}
+
+.candidate-select {
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 py-2 px-3;
+}
+.candidate-input {
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
+}
+.funding-input {
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
+}
+.candidate-tabs-content {
+  @apply p-6 flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-3xl w-full shadow-[1px_10px_50px_-10px_rgba(0,0,0,0.3)] bg-custom-dark-blue/30;
+}
+.candidate-pending {
+  @apply bg-custom-grey rounded-full py-1 px-4 text-xs text-white;
+}
+.candidate-territory {
+  @apply bg-custom-dark-blue rounded-full py-1 px-4 text-xs text-white;
+}
+
+.candidate-sub-childs {
+  @apply flex flex-col w-full;
+}
+.side-bar-first-box {
+  @apply w-full h-auto bg-white rounded-lg;
+}
+.side-bar-first-heading {
+  @apply font-bold text-white;
+}
+.side-bar-main-div {
+  @apply px-2;
+}
+.side-bar-fc {
+  @apply flex flex-col justify-start;
+}
+.side-bar-sc {
+  @apply flex flex-col justify-start;
+}
+.side-bar-btn {
+  @apply bg-blue-400 text-white rounded-2xl text-sm w-20;
+}
+.columns {
+  @apply flex flex-col justify-around py-4 sm:flex-row md:flex-row;
+}
+.candidate-text {
+  @apply text-custom-dark-blue font-bold text-sm;
+}
+.Message {
+  @apply flex flex-col sm:flex-row md:flex-row;
+}
+.icon-text {
+  @apply text-gray-500 font-bold text-sm;
+}
+.disclaimer-heading {
+  @apply text-custom-heading-color max-md:text-sm md:text-3xl font-bold my-2;
+}
+
+.contact-para {
+  @apply font-bold text-custom-heading-color text-lg;
+}
+
+.funding-questions {
+  @apply text-black max-md:text-sm md:text-sm;
+}
+
+.candidate-profile-icons {
+  @apply size-8 p-2 rounded-2xl text-white bg-custom-heading-color  mr-4;
+}
+
+.candidate-two-col {
+  @apply flex max-md:flex-col justify-between gap-5;
+}
+
+.p-multiselect-label-container {
+  display: flex;
+  align-items: center;
+}
+.p-multiselect-items-label,
+.p-multiselect-label.p-placeholder {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+.p-multiselect-item {
+  align-items: center !important;
+}
+.p-multiselect-item span {
+  font-size: 14px;
+}
+.p-multiselect-item.p-highlight span {
+  color: white !important;
+}
+
+.p-highlight {
+  background-color: rgb(33, 118, 255) !important;
+}
+.p-checkbox-box {
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+.p-multiselect-item.p-highlight .p-checkbox-box {
+  background-color: rgb(24 96 211);
+}
+
+.p-multiselect-filter.p-inputtext:focus,
+.p-multiselect-filter.p-inputtext:focus-within {
+  outline: none !important;
+}
+.p-multiselect-filter.p-inputtext,
+.p-multiselect-filter-container {
+  outline: none !important;
+}
+.p-inputwrapper.p-focus:focus-visible {
+  outline: none !important;
+  border: none !important;
+}
+
+#home-swiper > div {
+  padding: 2rem;
+}
+
+#franInt .p-multiselect-label {
+  padding: 0rem 0.5rem;
+}
