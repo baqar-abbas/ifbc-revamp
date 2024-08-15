@@ -81,7 +81,8 @@ const HomeBanner = () => {
   const listingBoxes = [
     {
       id: "Popular",
-      bgcolor: "#002880",
+      // bgcolor: "#002880",
+      bgcolor: "white",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +104,8 @@ const HomeBanner = () => {
     },
     {
       id: "Recent",
-      bgcolor: "#00184d",
+      // bgcolor: "#00184d",
+      bgcolor: "white",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +127,8 @@ const HomeBanner = () => {
     },
     {
       id: "Trending",
-      bgcolor: "#00081a",
+      // bgcolor: "#00081a",
+      bgcolor: "white",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -148,16 +151,16 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image: "/images/accounts/backgroundimage.jpg",
+      image: "/images/accounts/background.png",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image: "/images/accounts/backgroundimage.jpg",
+      image: "/images/accounts/background.png",
       text: "Unlock Your Potential with Our Franchises!",
     },
 
     {
-      image: "/images/accounts/backgroundimage.jpg",
+      image: "/images/accounts/background.png",
       text: "Start Your Journey to Business Success!",
     },
   ];
@@ -491,7 +494,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
       className={` w-full col-span-12 md:col-span-4 p-5`}
       style={{ backgroundColor: `${bgcolor}` }}
     >
-      <h3 className="text-lg font-bold text-white flex items-center gap-1 ">
+      <h3 className="text-lg font-bold text-black flex items-center gap-1 ">
         {svg}
         {id} Franchises
       </h3>
@@ -499,7 +502,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {uniqueFranchisedCats.map((listing, index) => {
           if (index > min && index < max) {
             return (
-              <li key={listing.name} className="text-sm text-white list-disc ">
+              <li key={listing.name} className="text-sm text-black list-disc ">
                 <button
                   onClick={() => handleSearchInputChange(listing)}
                   to="/search-franchises"
