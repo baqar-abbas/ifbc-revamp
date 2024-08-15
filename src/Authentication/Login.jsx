@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
@@ -148,6 +149,14 @@ const Login = () => {
 
   return (
     <PageTransition>
+      <Helmet>
+        <title>Login | International Franchise Business Consultant</title>
+        <meta
+          name="description"
+          content="Login to your International Franchise Business Consultants account. Access personalized services and manage your franchise opportunities."
+        />
+      </Helmet>
+
       <div className="w-full h-full grid place-items-center py-28">
         <div className="w-[350px] md:w-[450px] flex justify-center flex-col items-center ">
           <form

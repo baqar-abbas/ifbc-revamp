@@ -1,9 +1,18 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 
 const NotFoundPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Page Not Found</title>
+        <meta
+          name="description"
+          content="The page you are looking for was not found. Please check the URL or return to the home page. International Franchise Business Consultants is here to help you find the information you need."
+        />
+      </Helmet>
+
       {/* component */}
       <style
         dangerouslySetInnerHTML={{

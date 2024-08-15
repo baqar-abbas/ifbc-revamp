@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import ToggleButton from "./ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ const Logo = () => {
   return (
     <Link
       to="/"
-      className="flex shrink-0 justify-center items-center text-medium-gold "
+      className="flex shrink-0 justify-center items-center text-medium-gold max-md:col-span-12 md:col-span-2"
     >
       <img
         src="/images/logo/IFBC 6.png"
@@ -89,20 +89,20 @@ const Header = ({
       initial={{ y: 0 }}
       animate={{ y: hidden && window.innerWidth > 768 ? "-52%" : 0 }}
       id="main-header"
-      className="sticky top-0 z-[999] "
+      className="sticky top-0 z-[999]"
     >
       <nav
-        className=" w-full flex flex-col items-center justify-center text-white bg-[rgba(201,192,183,0.7)] border-b-2 border-color-custom-dark-blue xl:border-0  "
+        className=" w-full flex flex-col items-center justify-center text-white bg-[rgba(150,147,147,0.7)] border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
         id="header-nav"
       >
         <div
           id="navbar-centered"
-          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3 "
+          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-12 px-8 py-3 bg-[radial-gradient(circle,_hsla(33,92%,47%,1)_33%,_hsla(31,100%,36%,1)_62%)]"
         >
           {/* DETAILS */}
           <ul
             id="info-details-header"
-            className="max-md:hidden md:flex items-center justify-start gap-5"
+            className="max-md:hidden md:flex items-center justify-start gap-5 max-md:col-span-12 md:col-span-5"
           >
             {socials.map((button, index) => (
               <li key={index} className="flex gap-1 text-sm items-center">
@@ -143,12 +143,7 @@ const Header = ({
   );
 };
 
-const RightSideButtonsContainer = ({
-  mobileActive,
-  setMobileActive,
-  hidden,
-  setShow,
-}) => {
+const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
   const token = useSelector((state) => state.counter.token);
   const role =
@@ -156,16 +151,21 @@ const RightSideButtonsContainer = ({
       ? userDetails.userType
       : null;
   return (
-    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 ">
+    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 max-md:col-span-12 md:col-span-5">
       {/* button appointment */}
       {(!role || role === "N") && !token && (
         <a
           href="https://calendly.com/info-ifbc"
-          className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-10  text-sm h-10"
+          className="duration-500 max-md:hidden capitalize font-medium rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10"
         >
           Book an appointment
         </a>
       )}
+      <Link to="/make-a-referral">
+        <button className="duration-500 max-md:hidden capitalize font-medium rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10">
+          Make a Referral
+        </button>
+      </Link>
 
       {/* USER BUTTON */}
       <AccountDD token={token} userDetails={userDetails} role={role} />
@@ -211,6 +211,7 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
     dispatch(setToken(false));
     window.location.href = "/";
   };
+
   const elementStyle = active
     ? {
         position: "fixed",
@@ -229,9 +230,11 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       ? `/images/uploads/${userDetails.profileImage}`
       : "/images/avatar-placeholder.png"
   );
+
   const handleError = () => {
     setImgSrc("/images/avatar-placeholder.png");
   };
+
   return (
     <motion.div
       initial={{ y: 0 }}
@@ -241,8 +244,9 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       {token ? (
         <>
           <button
-            id="user-icon "
-            onClick={() => setActive(!active)}
+            id="user-icon"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
             className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
           >
             <img
@@ -253,10 +257,12 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             />
           </button>
           <div
-            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+            className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]`}
             style={elementStyle}
           >
-            <div className="flex flex-col items-start  py-2 px-3">
+            <div className="flex flex-col items-start py-2 px-3">
               <p className="text-[15px] text-[#333] font-bold">
                 {userDetails
                   ? userDetails?.firstName?.charAt(0).toUpperCase() +
@@ -271,14 +277,12 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
               </p>
               <p className="text-xs text-gray-500 mt-0.5">{roleName}</p>
             </div>
-            {/* logout button */}
             <NavLink
               to="/profile"
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
             >
               My Profile
             </NavLink>
-
             <a
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
               onClick={handleLogOut}
@@ -290,40 +294,43 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       ) : (
         <>
           <button
-            id="user-icon "
-            onClick={() => setActive(!active)}
-            className=" shadow-lg flex-wrap  gap-2 cursor-pointer bg-white w-10 h-10 rounded-full flex justify-center items-center"
+            id="user-icon"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+            className="  cursor-pointer bg-orange-500 rounded-full py-2.5 px-3"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="rgb(33, 118, 255)"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
+            <div className="flex justify-center items-center gap-1">
+              <h3 className="text-sm font-medium">Login</h3>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
+                stroke="white"
+                className={`size-3 transform transition-all duration-300 ${active ? "rotate-180 " : ""}`}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
           </button>
           <div
-            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]  justify-center items-center"
+            className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999] justify-center items-center`}
             style={elementStyle}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
           >
             <img
               src="/images/logo/IFBC 1.png"
               alt="IFBC"
               className="w-full px-3 py-2"
             />
-
-            {/* signin button */}
             <NavLink to="/login" className="account-links">
               Log Into Your Account
             </NavLink>
-
             <NavLink to="/registration" className="account-links">
               Create a New Account
             </NavLink>

@@ -7,7 +7,7 @@
 }
 
 .candidate-btn {
-  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
+  @apply border-2 text-sm text-center border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 font-light;
 }
 
 .candidate-inverted-btn {
@@ -54,7 +54,7 @@
 }
 
 .candidate-sub-childs {
-  @apply flex flex-col w-full my-3 gap-2 max-w-72 justify-between;
+  @apply flex flex-col w-full my-3 gap-2 md:max-w-72 justify-between;
 }
 
 .candidate-select {
@@ -67,7 +67,7 @@
   @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
 }
 .candidate-tabs-content {
-  @apply p-6 flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-3xl w-full shadow-[1px_10px_50px_-10px_rgba(0,0,0,0.3)] bg-custom-dark-blue/30;
+  @apply flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-3xl w-full shadow-[1px_10px_50px_-10px_rgba(0,0,0,0.3)] bg-custom-dark-blue/30;
 }
 .candidate-pending {
   @apply bg-custom-grey rounded-full py-1 px-4 text-xs text-white;
@@ -76,9 +76,6 @@
   @apply bg-custom-dark-blue rounded-full py-1 px-4 text-xs text-white;
 }
 
-.candidate-sub-childs {
-  @apply flex flex-col w-full;
-}
 .side-bar-first-box {
   @apply w-full h-auto bg-white rounded-lg;
 }
@@ -126,7 +123,236 @@
 }
 
 .candidate-two-col {
-  @apply flex max-md:flex-col justify-between gap-5;
+  @apply flex max-md:flex-col justify-between md:gap-5;
+}
+
+.bg-custom {
+  background-color: #5b99c2;
+}
+
+.custom-btn-class {
+
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 25%;
+  cursor: pointer;
+  width: 15rem;
+  /* border-radius: 5px; */
+}
+
+/* .heading h1::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 3%;
+    top: 35%;
+}
+
+.about-ifbc {
+  position: relative;
+}
+
+.about-ifbc h2::after {
+  content: '';
+  width: 140px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 4%;
+  top: 17%;
+}
+
+.about-ifbc h3::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 4%;
+  top: 73%;
+}
+
+.become-consultant {
+  position: relative;
+  
+}
+
+.become-consultant h2::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 0.5%;
+  top: 8%;
+}
+
+.become-consultant h3::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 0.5%;
+  top: 47%;
+}
+
+.about-cost {
+  position: relative;
+}
+
+.about-cost h2::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 4%;
+  top: 17%;
+}
+
+.about-cost h3::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 4%;
+  top: 73%;
+}
+
+.step-by-step {
+  position: relative;
+}
+
+.step-by-step h2::after {
+  content: '';
+  width: 200px;
+  height: 2px;
+  background-color: #0033A0;
+  position: absolute;
+  left: 0.5%;
+  top: 17%;
+} */
+
+.desktop-video-become {
+  display: block;
+  height: 72% !important;
+  margin-top: 2.5rem !important;
+  margin-left: 4.5rem;
+}
+
+.mobile-video {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .heading {
+    position: relative;
+  }
+
+  /* .heading h1::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 12%;
+    top: 78%;
+  }
+
+  .about-ifbc h2::after {
+    content: '';
+    width: 140px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 4%;
+    top: 8%;
+  }
+
+  .about-ifbc h3::after {
+    content: '';
+    width: 140px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 4%;
+    top: 75%;
+  }
+
+  .become-consultant h2::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 5%;
+    top: 10%;
+  }
+
+  .become-consultant h3::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 5%;
+    top: 50%;
+  }
+
+  .about-cost h2::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 4%;
+    top: 21%;
+  }
+.about-cost h3::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 4%;
+    top: 68%;
+  }
+
+  .step-by-step h2::after {
+    content: '';
+    width: 200px;
+    height: 2px;
+    background-color: #0033A0;
+    position: absolute;
+    left: 4%;
+    top: 20%;
+  } */
+
+  .desktop-video-become {
+    display: none;
+  }
+
+  .mobile-video {
+    display: block;
+  }
+
+  .custom-btn-class {
+    margin: 4px 1%;
+    width: 95%;
+  }
+}
+
+.text-custom-consultant {
+  color: #5b99c2;
+  font-weight: bolder;
+  font-size: 50px;
+  text-align: center;
 }
 
 .p-multiselect-label-container {
@@ -135,7 +361,7 @@
 }
 .p-multiselect-items-label,
 .p-multiselect-label.p-placeholder {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   font-size: 14px;
   color: black;
 }
@@ -156,8 +382,9 @@
 .p-checkbox-box {
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
 }
-.p-multiselect-item.p-highlight .p-checkbox-box {
+.p-highlight .p-checkbox-box {
   background-color: rgb(24 96 211);
+  border: none !important;
 }
 
 .p-multiselect-filter.p-inputtext:focus,
@@ -179,4 +406,13 @@
 
 #franInt .p-multiselect-label {
   padding: 0rem 0.5rem;
+}
+
+.MuiStepLabel-label {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 18px !important;
+}
+
+p.MuiTypography-body1 {
+  font-family: "Poppins", sans-serif !important;
 }

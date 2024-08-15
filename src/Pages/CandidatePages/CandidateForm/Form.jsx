@@ -4,16 +4,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
-import {
-  sanitizeInput,
-  validateEmail,
-  validatePhone,
-  validateUsername,
-  validateZipcode,
-} from "src/Utils/SanitizeInput";
+import { sanitizeInput } from "src/Utils/SanitizeInput";
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 
-import { Stepper } from "react-form-stepper";
 import Initial from "./Steps/Initial";
 import CandidateProfile from "./Steps/CandidateProfile";
 import Eligibility from "./Steps/Eligibility";
@@ -22,22 +15,9 @@ import Wants from "./Steps/Wants";
 import FranchiseCategories from "./Steps/FranchiseCategories";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import LastStep from "./Steps/LastStep";
+import HorizontalNonLinearStepper from "./Stepper";
 
-function convertKeysToLowercase(obj) {
-  if (typeof obj !== "object" || obj === null) {
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map((item) => convertKeysToLowercase(item));
-  }
-
-  return Object.keys(obj).reduce((acc, key) => {
-    const lowerKey = key.toLowerCase();
-    acc[lowerKey] = convertKeysToLowercase(obj[key]);
-    return acc;
-  }, {});
-}
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails, role } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
@@ -49,7 +29,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedDetails, setSelectedDetails] = useState({});
   const [showsuccess, setShowSuccess] = useState(false);
   const [step, setStep] = useState(0);
-  const [listingNames, setListingNames] = useState([]);
   const { name } = useParams();
   const [searchParams] = useSearchParams();
   const docidSelected = searchParams.get("id");
@@ -60,6 +39,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     exp: false,
     wants: false,
     fc: false,
+    ls: false,
   });
 
   const fetchCandidates = async () => {
@@ -224,6 +204,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         Bankruptcy: formFields.bankruptcy ?? "",
         TrafficViolationReason: formFields.trafficViolationReason ?? "",
         UnsatisfiedjudgmentReason: formFields.unsatisfiedjudgmentReason ?? "",
+        bankruptcyReason: formFields.bankruptcyReason ?? "",
+        fundingPlan: formFields.fundingPlan ?? "",
         isCompleted: true,
       };
 
@@ -339,6 +321,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       const formData = {
         docId: resolvedDocId,
+        // CANDIDATE PROFILE FIELDS
         firstName: formFields.firstName ?? "",
         lastName: formFields.lastName ?? "",
         Phone: formFields.phone ?? "",
@@ -355,9 +338,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         currentCity: formFields.currentCity ?? "",
         currentState: formFields.currentState ?? "",
         currentZipcode: formFields.currentZipcode ?? "",
-        Status: formFields.status ?? "",
-        PipelineStep: formFields.pipelinestep ?? "",
-        lostReason: "string",
+        // INITIAL QUALIFYING FIELDS
         funding: formFields.funding ?? "",
         investmentFranchise: formFields.investmentFranchise ?? "",
         creditScore: formFields.creditScore ?? "",
@@ -366,17 +347,24 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         franchiseCause: formFields.franchiseCause ?? "",
         professionalBackground: formFields.professionalBackground ?? "",
         timeFrame: formFields.timeFrame ?? "",
+        // ELIGIBILITY FIELDS
         VALoan: formFields.vaLoan ?? "",
         EligibilityValue: formFields.eligibilityValue ?? "",
         TrafficViolation: formFields.trafficViolation ?? "",
+        TrafficViolationReason: formFields.trafficViolationReason ?? "",
         Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+        UnsatisfiedjudgmentReason: formFields.unsatisfiedjudgmentReason ?? "",
         Bankruptcy: formFields.bankruptcy ?? "",
+        BankruptcyReason: formFields.bankruptcyReason ?? "",
+        // EXPERIENCE FIELDS
+        FundingPlan: formFields.fundingPlan ?? "",
         BusinessBefore: formFields.businessBefore ?? "",
         MarketingExperience: formFields.marketingExperience ?? "",
         ManagementExperience: formFields.managementExperience ?? "",
         SalesExperience: formFields.salesExperience ?? "",
         ReviewFinancialStatement: formFields.reviewFinancialStatement ?? "",
         CSExperience: formFields.csExperience ?? "",
+        // WANTS FIELDS
         AttractiveBusinessOwner: formFields.attractiveBusinessOwner ?? "",
         HandleNewBusiness: formFields.handleNewBusiness ?? "",
         BusinessExpectations: formFields.businessExpectations ?? "",
@@ -386,7 +374,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ColdCalling: formFields.coldCalling ?? "",
         PassiveMode: formFields.passiveMode ?? "",
         BusinessHours: formFields.businessHours ?? "",
-
+        // FRANCHISE CATEGORIES FIELDS
         Advertising: formFields.advertising ?? "",
         Automotive: formFields.automotive ?? "",
         BeautySpa: formFields.beautySpa ?? "",
@@ -427,11 +415,16 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         Staffing: formFields.staffing ?? "",
         TravelPlanning: formFields.travelPlanning ?? "",
         Vending: formFields.vending ?? "",
+        isCompleted: true,
+
+        // last step fields
+
         Timezone: formFields.timezone ?? "",
         PreferredCallTime: formFields.preferredCallTime ?? "",
-        RealEstate: formFields.realEstate ?? "",
-        isCompleted: true,
+        hearAboutUs: formFields.hearAboutUs ?? "",
+        RealEstate: "",
       };
+      console.log(formData);
       const baseUrl = "https://backend.ifbc.co/api/franchisecategories";
       let response = "";
 
@@ -610,15 +603,17 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }));
   };
 
-  useEffect(() => {
-    axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
-      const listingNames = response.data.map((listings) => ({
-        name: listings.name,
-        docId: listings.docId,
-      }));
-      setListingNames(listingNames);
-    });
-  }, []);
+  const fetchListings = async () => {
+    const { data } = await axios.get(
+      "https://backend.ifbc.co/api/listingsmstr"
+    );
+    return data.map((listing) => ({
+      name: listing.name,
+      docId: listing.docId,
+    }));
+  };
+
+  const { data: listingNames } = useQuery(["listings"], fetchListings);
 
   const handleSwitchCase = () => {
     switch (step) {
@@ -640,6 +635,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             docid={docidSelected}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
           />
         );
       case 1:
@@ -655,6 +651,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
           />
         );
 
@@ -671,6 +668,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
           />
         );
       case 3:
@@ -686,6 +684,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
           />
         );
 
@@ -702,6 +701,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
           />
         );
 
@@ -710,7 +710,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           <FranchiseCategories
             setStep={setStep}
             handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
             formFields={formFields}
             candDetails={candDetails}
             candNames={candNames}
@@ -722,6 +721,30 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
+            step={step}
+          />
+        );
+
+      case 6:
+        return (
+          <LastStep
+            setStep={setStep}
+            handleInputChange={handleInputChange}
+            formFields={formFields}
+            candDetails={candDetails}
+            candNames={candNames}
+            setFormErrors={setFormErrors}
+            setShow={setShow}
+            show={show}
+            loading={loading}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
+            handleSubmit={handleSubmit}
+            setLoading={setLoading}
+            formErrors={formErrors}
+            step={step}
           />
         );
       default:
@@ -736,43 +759,20 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           {successMsg}
         </div>
       </DialogBox>
-      <Stepper
-        steps={[
-          { label: "Candidate Profile" },
-          { label: "Initial Qualifying" },
-          { label: "Eligibility" },
-          { label: "Experience" },
-          { label: "Wants" },
-          { label: "Franchise Categories" },
-        ]}
-        activeStep={step}
-        styleConfig={{
-          activeBgColor: "#2b7cff",
-          activeTextColor: "#fff",
-          inactiveBgColor: "#fff",
-          inactiveBorderColor: "#2b7cff",
-          inactiveTextColor: "#2b7cff",
-          completedBgColor: "#fff",
-          completedTextColor: "#2b7cff",
-          size: "3em",
-        }}
-        className={"stepper md:max-w-7xl mx-auto"}
-        stepClassName={"stepper__step border-stepper"}
-      />
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[50%] " : "md:max-w-[95%]"}  `}
+        className={`  ${candDetails ? "" : "max-md:max-w-[100%] items-center justify-center mx-auto mb-10 col-span-12 md:max-w-[80%] md:my-10"}  `}
       >
         {handleSwitchCase()}
       </div>
 
       {/* hume isme ye text bhi nhi laana ye last step may show hoga */}
-      <div
+      {/* <div
         id="button-container"
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
-      >
-        {/* {candNames && candDetails ? (
+      > */}
+      {/* {candNames && candDetails ? (
           <button
             className="candidate-btn w-96"
             onClick={handleSubmitRegistration}
@@ -788,7 +788,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
                 : "SUBMIT CANDIDATE INFORMATION"}
           </button>
         )} */}
-      </div>
+      {/* </div> */}
     </form>
   );
 };

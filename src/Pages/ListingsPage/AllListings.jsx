@@ -14,6 +14,7 @@ import ToolInformation from "src/Popups/ToolInformation";
 import ToolEmail from "src/Popups/ToolEmail";
 import ToolComparison from "src/Popups/ToolComparison";
 import SearchingComponent from "./SearchingComponent";
+import ListingsFilter from "./ListingsFilter";
 
 const AllListings = ({ setRegistrationType, setShow }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -121,14 +122,10 @@ const AllListings = ({ setRegistrationType, setShow }) => {
                   key === "investmentRange"
                 ) {
                   return filters[key].some((filterValue) => {
-                    const splittedFilterValue = filterValue.split("-");
                     const splittedListingValue = listing[key].split("-");
 
-                    const minValueFilter = Number(
-                      splittedFilterValue[0]?.trim()?.replace(/[$,]/g, "")
-                    );
-                    const maxValueFilter = Number(
-                      splittedFilterValue[1]?.trim()?.replace(/[$,]/g, "")
+                    const valueFilter = Number(
+                      filterValue?.trim()?.replace(/[$,]/g, "")
                     );
 
                     const minValueListing = Number(
@@ -137,17 +134,9 @@ const AllListings = ({ setRegistrationType, setShow }) => {
                     const maxValueListing = Number(
                       splittedListingValue[1]?.trim()?.replace(/[$,]/g, "")
                     );
-
-                    if (filterValue.includes(">")) {
-                      const maxValue = Number(
-                        filterValue.split("> ")[1]?.trim()?.replace(/[$,]/g, "")
-                      );
-                      return minValueListing >= maxValue;
-                    }
-
                     return (
-                      minValueListing >= minValueFilter &&
-                      maxValueListing <= maxValueFilter
+                      minValueListing <= valueFilter &&
+                      maxValueListing <= valueFilter
                     );
                   });
                 } else if (Array.isArray(filters[key]) && key === "category") {
@@ -207,13 +196,13 @@ const AllListings = ({ setRegistrationType, setShow }) => {
           </p>
         )}
 
-        <Pagination
+        {/* <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
           onPageChange={paginate}
-        />
+        /> */}
       </div>
-
+      <ListingsFilter />
       <div
         id="listing-columns"
         className={`max-md:block ${

@@ -5,13 +5,12 @@ import Registration from "src/Authentication/Registration";
 import FranchiseOwner from "src/Pages/StaticPages/FranchiseOwner";
 import MainAbout from "./Pages/AboutPage/MainAbout";
 import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
-import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
+import MainNewCand from "./Pages/CandidatePages/CandidateForm/MainNewCand";
 import Login from "src/Authentication/Login";
 import MainListings from "src/Pages/ListingsPage/MainListings";
 import MainDetails from "src/Pages/ListingsDetails/MainDetails";
 import MainHome from "src/Pages/HomePage/MainHome";
 import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
-import CheckOutForm from "./Pages/StaticPages/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -26,8 +25,10 @@ import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
-import { useEffect, useState } from "react";
 import BecomeAConsultant from "./Pages/StaticPages/BecomeAConsultant";
+import Referral from "./Pages/StaticPages/Referral";
+import QualifyConsultant from "./Pages/StaticPages/QualifyConsultant";
+import BecomeConsultant from "./Pages/StaticPages/BecomeConsultant";
 
 const RouteRenderer = ({ setRegistrationType, setShow }) => {
   const consultantRoutes = [
@@ -151,6 +152,18 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       path: "/become-a-consultant",
       element: <BecomeAConsultant />,
     },
+    // {
+    //   path: "/become-consultant",
+    //   element: <BecomeConsultant />,
+    // },
+    {
+      path: "/become-consultant",
+      element: <QualifyConsultant />,
+    },
+    {
+      path: "/make-a-referral",
+      element: <Referral />,
+    },
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,
@@ -179,16 +192,6 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     },
   ];
 
-  const normalUserRoutes = [
-    {
-      path: "/checkout",
-      element: (
-        <ListingDataContext>
-          <CheckOutForm />
-        </ListingDataContext>
-      ),
-    },
-  ];
   const userDetails = useSelector((state) => state.counter.userDetails);
 
   const role =
@@ -198,7 +201,7 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
 
   const routes = useRoutes(
     !role || role === "N"
-      ? [...normalUserRoutes, ...staticRoutes]
+      ? staticRoutes
       : [...consultantRoutes, ...staticRoutes]
   );
   return routes;

@@ -91,12 +91,6 @@ const ListingsColumns = ({ listing, index, slider }) => {
               Cash Required: {listing.investmentRange}
             </p>
           )}
-
-          {/* {listing?.category && listing?.category !== "" && (
-            <p className="bg-white py-2 px-4 font-semibold text-xs text-center  rounded-full shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] w-full h-14 items-center flex justify-center">
-              {listing?.category}
-            </p>
-          )} */}
         </div>
         {/* temporary role */}
         {role === "C" ? (
@@ -123,7 +117,8 @@ const ListingsColumns = ({ listing, index, slider }) => {
               />
             </svg>
           </a>
-        ) : cartListings &&
+        ) : !slider &&
+          cartListings &&
           cartListings.length > 0 &&
           cartListings.includes(listing.docId) ? (
           <a className="bg-custom-blue/80 cursor-not-allowed w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5">
@@ -144,26 +139,28 @@ const ListingsColumns = ({ listing, index, slider }) => {
             </svg>
           </a>
         ) : (
-          <a
-            onClick={handleRequest}
-            className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
-          >
-            <span>Request Free Info</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-5 h-5"
+          !slider && (
+            <a
+              onClick={handleRequest}
+              className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </a>
+              <span>Request Free Info</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </a>
+          )
         )}
       </div>
     </motion.div>

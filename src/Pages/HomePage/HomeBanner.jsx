@@ -308,7 +308,8 @@ const SearchingSection = () => {
         onChange={(e) => setSelectedCats(e.value)}
         options={categories}
         optionLabel="code"
-        //filter
+        filter
+        display="chip"
         placeholder="Select Categories"
         // maxSelectedLabels={3}
         className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] "
@@ -343,32 +344,16 @@ const SearchDropdown = ({
 }) => {
   const { property, anotherText } = config;
 
-  const generateRangeArray = (start, end, step, check) => {
-    let rangeArray = [];
-    for (let i = start; i < end; i += step) {
-      let rangeEnd = i + step;
-      if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
-
-      if (check) {
-        rangeArray.push(
-          `$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`
-        );
-      } else {
-        rangeArray.push(`${i} - ${rangeEnd}`);
-      }
-    }
-    if (check) {
-      rangeArray.push(`> $${end}`);
-    } else {
-      rangeArray.push(`> ${end}`);
-    }
-    return rangeArray;
-  };
-
-  const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
-
-  let uniqueItems = investmentRange;
-
+  let uniqueItems = [
+    { value: "", text: "Cash to Invest" },
+    { value: "$25000", text: "Up to $25,000" },
+    { value: "$50000", text: "Up to $50,000", selected: true },
+    { value: "$100000", text: "Up to $100,000" },
+    { value: "$250000", text: "Up to $250,000" },
+    { value: "$500000", text: "Up to $500,000" },
+    { value: "$1000000", text: "Up to $1,000,000" },
+    { value: "$5000000", text: "Up to $5,000,000" },
+  ];
   const handleDropdown = (property) => {
     if (activeDD === property) {
       setActiveDD("");
@@ -433,8 +418,8 @@ const SearchDropdown = ({
       </button>
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full rounded-lg mt-1 ${
-          activeDD === property ? "h-[300px]" : "h-0 opacity-0"
-        } duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}
+          activeDD === property ? "max-h-[300px]" : "h-0 opacity-0"
+        } duration-200 bg-white border border-dimmed text-sm md:text-sm  overflow-y-auto ]`}
       >
         {uniqueItems &&
           uniqueItems.map((item, index) => (
@@ -442,12 +427,12 @@ const SearchDropdown = ({
               <div
                 onClick={() => {
                   setActiveDD("");
-                  setSelectedCats({ [property]: [item] });
+                  setSelectedCats({ [property]: [item.value] });
                 }}
                 className="text-black w-full block cursor-pointer hover:text-link px-3 
               py-2 hover:bg-slate-200"
               >
-                <span>{item}</span>
+                <span>{item.text}</span>
               </div>
             </div>
           ))}

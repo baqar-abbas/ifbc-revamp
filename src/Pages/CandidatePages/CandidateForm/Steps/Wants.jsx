@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import axios from "axios";
+import HorizontalNonLinearStepper from "../Stepper";
 const Wants = ({
   setStep,
   handleInputChange,
@@ -13,6 +14,7 @@ const Wants = ({
   docid,
   visitedSteps,
   setVisitedSteps,
+  step,
 }) => {
   const fetchCandidates = async () => {
     const url = `https://backend.ifbc.co/api/wants/${docid}`;
@@ -41,6 +43,30 @@ const Wants = ({
     e.preventDefault();
     setVisitedSteps((prev) => ({ ...prev, wants: true }));
     setStep((prevStep) => prevStep + 1);
+    window.scrollTo(0, 5);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      event.preventDefault();
+      if (event.key === "Backspace") {
+        handlePreviousClick();
+      } else if (event.key === "Enter") {
+        handleWants(event);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handlePreviousClick = () => {
+    setVisitedSteps((prev) => ({ ...prev, wants: true }));
+    setStep((prevStep) => prevStep - 1);
+    window.scrollTo(0, 5);
   };
   return (
     <motion.div
@@ -51,9 +77,11 @@ const Wants = ({
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
       id="eligibility"
-      className="candidate-tabs-content"
+      className="candidate-tabs-content grid grid-cols-12  gap-3"
     >
-      <div className="">
+      <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
+
+      <div className="col-span-7 p-6">
         <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -449,9 +477,9 @@ const Wants = ({
                 />
                 <label
                   className="candidate-radio-text"
-                  htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
+                  htmlFor="Are you going to be in this business as an operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
                 >
-                  Owner/Operator
+                  Operator
                 </label>
               </li>
               <li className="mr-4 flex">
@@ -589,11 +617,8 @@ const Wants = ({
             className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
-              className="candidate-btn w-40 flex items-center justify-between"
-              onClick={() => {
-                setVisitedSteps((prev) => ({ ...prev, wants: true }));
-                setStep((prevStep) => prevStep - 1);
-              }}
+              className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
+              onClick={handlePreviousClick}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -614,11 +639,11 @@ const Wants = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
-              className="candidate-btn w-40 flex items-center justify-between"
               onClick={handleWants}
+              className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
             >
               Next
               <svg

@@ -11,6 +11,8 @@ import {
   validatePhone,
   validateUsername,
 } from "src/Utils/SanitizeInput";
+import { Helmet } from "react-helmet";
+import PolicyContent from "../GlobalPageSections/PolicyContent";
 
 const ServicesGrid = () => {
   return (
@@ -288,6 +290,14 @@ const Contact = () => {
   // return
   return (
     <PageTransition>
+      <Helmet>
+        <title>Contact | International Franchise Business Consultant</title>
+        <meta
+          name="description"
+          content="Get in touch with International Franchise Business Consultants. We're here to answer your questions and provide expert advice on franchise opportunities and consulting services."
+        />
+      </Helmet>
+
       <DialogBox show={show} setShow={setShow}>
         <div className="ml-3 flex h-7 items-center absolute top-5 right-5">
           <NavLink
@@ -397,7 +407,7 @@ const Contact = () => {
                         ? "1px solid red"
                         : undefined,
                     }}
-                    placeholder="Email address"
+                    placeholder="Email Address"
                   />
                   {formErrors.contactEmail &&
                     formErrors.contactEmail === "invalid" && (
@@ -422,7 +432,7 @@ const Contact = () => {
                         ? "1px solid red"
                         : undefined,
                     }}
-                    placeholder="Phone number (123-456-7890)"
+                    placeholder="Phone Number (123-456-7890)"
                   />{" "}
                   {formErrors.contactPhone &&
                     formErrors.contactPhone === "invalid" && (
@@ -481,23 +491,7 @@ const Contact = () => {
                 Send a copy of this message to me
               </label>
 
-              {/* Terms and conditions message */}
-              <p className="text-xs text-custom-heading-color text-left">
-                By submitting the form, you agree to receive calls, text
-                messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
-                at the contact information provided. <br />
-                Message rates may apply. <br />
-                Text STOP to cancel text messaging at any time. <br />
-                See{" "}
-                <a href="/terms-conditions" className=" underline">
-                  Terms & Conditions
-                </a>{" "}
-                and{" "}
-                <a href="/privacy-policy" className=" underline">
-                  Privacy Policy
-                </a>{" "}
-                for additional details.
-              </p>
+              <PolicyContent isContact={true} />
               <div className="my-3 flex justify-center">
                 <button
                   type="submit"

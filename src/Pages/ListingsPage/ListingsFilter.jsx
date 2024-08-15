@@ -67,6 +67,7 @@ const ListingsFilter = () => {
   const dropdownRef = useRef(null);
   const roleCheck = (!role || role === "N") && !token;
   const [selectedCats, setSelectedCats] = useState([]);
+
   useEffect(() => {
     if (filters?.category) {
       let cats = filters?.category.map((cat) => ({
@@ -208,99 +209,102 @@ const ListingsFilter = () => {
     <div
       id="main-filter-container"
       ref={dropdownRef}
-      className="p-8 bg-[#2176ff]/30 rounded-3xl mt-20"
+      className="p-8 bg-[#2176ff]/30 rounded-3xl  "
     >
       {hasActiveFilters && (
-        <div className="mb-4">
-          <button
-            onClick={() => setFilters({})}
-            className=" cursor-pointer rounded-xl   transition flex items-center gap-1 bg-red-800 px-3 justify-between w-full outline-none capitalize text-sm py-1 text-white"
-          >
-            Clear All Filters{" "}
-            <span className="text-red">
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
-                stroke="white"
-                className="size-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
-            </span>
-          </button>
-          <div className="mt-2">
-            <h3>Active Filters:</h3>
-            <ul className="divide-y-2">
-              {activeFilters?.map(([key, values]) =>
-                values.map((value) => (
-                  <li
-                    key={`${key}-${value}`}
-                    className="bg-gray-700 flex items-center capitalize justify-between my-2 py-2  text-xs border border-gray-700 px-3 rounded-xl"
-                  >
-                    <span className="text-white">
-                      {key?.replace(/([A-Z])/g, " $1").trim()} :{" "}
-                      {value?.replace(/^.*?:/, "").trim()}
-                      {/* {key} : {value} */}
-                    </span>
-
-                    <button
-                      className="ml-2 text-red-600  cursor-pointer"
-                      onClick={() => handleRemoveFilter(key, value)}
+        <>
+          <h3>Active Filters:</h3>
+          <div className="mb-4 mt-2 flex items-center gap-3">
+            <div className="w-full">
+              <ul className="flex items-center gap-3 flex-wrap">
+                {activeFilters?.map(([key, values]) =>
+                  values.map((value) => (
+                    <li
+                      key={`${key}-${value}`}
+                      className="bg-gray-700 flex items-center capitalize justify-between py-2  text-xs border border-gray-700 px-3 rounded-xl"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="white"
-                        className="size-4"
+                      <span className="text-white">
+                        {/* {key?.replace(/([A-Z])/g, " $1").trim()} :{" "} */}
+                        {value?.replace(/^.*?:/, "").trim()}
+                        {/* {key} : {value} */}
+                      </span>
+
+                      <button
+                        className="ml-2 text-red-600  cursor-pointer"
+                        onClick={() => handleRemoveFilter(key, value)}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18 18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </li>
-                ))
-              )}
-            </ul>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="white"
+                          className="size-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18 18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
+            <button
+              onClick={() => setFilters({})}
+              className=" cursor-pointer rounded-xl  flex items-center gap-1 bg-red-800 px-3 justify-between w-44 outline-none capitalize text-xs py-2 text-white"
+            >
+              Clear All Filters{" "}
+              <span className="text-red">
+                {" "}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="white"
+                  className="size-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </span>
+            </button>
           </div>
-        </div>
+        </>
       )}
-      {roleCheck && (
-        <div className="w-full my-5">
-          <SearchingComponent setFilters={setFilters} />
-        </div>
-      )}
-      <MultiSelect
-        value={selectedCats}
-        onChange={handleSelectCats}
-        options={categories}
-        optionLabel="code"
-        //filter
-        placeholder="Select Categories"
-        // maxSelectedLabels={3}
-        className=" w-full md:text-xs  transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded  mb-5"
-      />
-      {filterData.map((filter, index) => (
-        <CategorySearch
-          key={index}
-          anotherText={filter.anotherText}
-          normalText={filter.normalText}
-          property={filter.property}
-          activeDD={activeDD}
-          setActiveDD={setActiveDD}
+      <div className="max-md:flex flex-col md:grid grid-cols-4 items-center gap-3">
+        {roleCheck && (
+          <div className="w-full ">
+            <SearchingComponent setFilters={setFilters} filters={filters} />
+          </div>
+        )}
+        <MultiSelect
+          value={selectedCats}
+          onChange={handleSelectCats}
+          options={categories}
+          optionLabel="code"
+          filter
+          placeholder="Select Categories"
+          className=" w-full md:text-xs  transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded  "
         />
-      ))}
+        {filterData.map((filter, index) => (
+          <CategorySearch
+            key={index}
+            anotherText={filter.anotherText}
+            normalText={filter.normalText}
+            property={filter.property}
+            activeDD={activeDD}
+            setActiveDD={setActiveDD}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -312,7 +316,7 @@ const CategorySearch = ({
   activeDD,
   setActiveDD,
 }) => {
-  const { listings, filters, setFilters } = useContext(MyContext);
+  const { filters, setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState(
     (filters && filters[property]) || []
   );
@@ -365,7 +369,16 @@ const CategorySearch = ({
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
+  const investmentRange = [
+    { value: "", text: "Cash to Invest" },
+    { value: "$25000", text: "Up to $25,000" },
+    { value: "$50000", text: "Up to $50,000", selected: true },
+    { value: "$100000", text: "Up to $100,000" },
+    { value: "$250000", text: "Up to $250,000" },
+    { value: "$500000", text: "Up to $500,000" },
+    { value: "$1000000", text: "Up to $1,000,000" },
+    { value: "$5000000", text: "Up to $5,000,000" },
+  ];
 
   const ownedUnits = generateRangeArray(0, 200, 50, false);
 
@@ -445,7 +458,7 @@ const CategorySearch = ({
   }
 
   return (
-    <div className="relative w-full group flex flex-col gap-2 mb-5">
+    <div className="relative w-full group flex flex-col gap-2">
       <button
         className="py-2.5 px-3 w-full md:text-sm text-site transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded "
         onClick={() => handleDropdown(property)}
@@ -472,19 +485,29 @@ const CategorySearch = ({
         } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-auto`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
-          const length = listings.filter(
-            (listing) => listing[property] === cat
-          ).length;
-          return (
-            <div className="flex justify-between items-center" key={index}>
-              <div
-                onClick={() => handleCatSelection(cat, property)}
-                className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
-              >
-                <span>{cat}</span>
+          if (typeof cat === "object") {
+            return (
+              <div className="flex justify-between items-center" key={index}>
+                <div
+                  onClick={() => handleCatSelection(cat.value, property)}
+                  className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
+                >
+                  <span>{cat.text}</span>
+                </div>
               </div>
-            </div>
-          );
+            );
+          } else {
+            return (
+              <div className="flex justify-between items-center" key={index}>
+                <div
+                  onClick={() => handleCatSelection(cat, property)}
+                  className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
+                >
+                  <span>{cat}</span>
+                </div>
+              </div>
+            );
+          }
         })}
       </div>
     </div>

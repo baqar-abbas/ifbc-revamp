@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
+import HorizontalNonLinearStepper from "../Stepper";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -26,6 +27,9 @@ const CandidateProfile = ({
   docid,
   visitedSteps,
   setVisitedSteps,
+  completed,
+  setCompleted,
+  step,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -160,6 +164,23 @@ const CandidateProfile = ({
     });
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        // Prevent the default Backspace behavior (like navigating back)
+        event.preventDefault();
+
+        handleCanProfile(event);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [formFields]);
+
   const handleCanProfile = async (e) => {
     e.preventDefault();
 
@@ -211,20 +232,20 @@ const CandidateProfile = ({
         }
       }
     });
-
     setFormErrors(formErrors);
 
     if (allFieldsValid) {
+      e.preventDefault();
+      setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
       setStep((prevStep) => prevStep + 1);
+      window.scrollTo(0, 0);
     } else {
       setFormErrors((prev) => ({
         ...prev,
         error: "Please fill in all the required fields",
       }));
       setLoading(false);
-      window.scrollTo(0, 100);
-
-      // Handle invalid fields (e.g., show validation errors)
+      window.scrollTo(0, 0);
     }
   };
 
@@ -237,28 +258,29 @@ const CandidateProfile = ({
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
       id="candprofile"
-      className="candidate-tabs-content"
+      className="candidate-tabs-content grid grid-cols-12  gap-3"
     >
-      {formErrors.error && (
-        <p className="border-2 border-red-600 text-red-600 rounded-xl p-4 flex justify-between">
-          {formErrors.error}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-            />
-          </svg>
-        </p>
-      )}{" "}
-      <div className="flex justify-between md:max-2xl:gap-32 2xl:gap-44">
+      <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
+      <div className="col-span-7 p-6">
+        {formErrors.error && (
+          <p className="border-2 border-red-600 text-red-600 rounded-xl p-4 flex justify-between">
+            {formErrors.error}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+              />
+            </svg>
+          </p>
+        )}{" "}
         <FormFirstRow
           handleInputChange={handleInputChange}
           formErrors={formErrors}
@@ -287,31 +309,29 @@ const CandidateProfile = ({
           visitedSteps={visitedSteps}
           setVisitedSteps={setVisitedSteps}
         />
-      </div>
-      <div
-        id="button-container-initial"
-        className="flex items-center mt-5 gap-10"
-      >
-        <button
-          className="candidate-btn w-40 flex items-center justify-between"
-          onClick={handleCanProfile}
-        >
-          {loading ? "Loading..." : "Next"}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+        <div className="flex w-full justify-end">
+          <button
+            className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
+            type="submit"
+            onClick={handleCanProfile}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-            />
-          </svg>
-        </button>
+            {loading ? "Loading..." : "Next"}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </motion.div>
   );

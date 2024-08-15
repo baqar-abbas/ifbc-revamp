@@ -1,9 +1,20 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 
 const BusinessAssessment = () => {
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Business Assessment | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="Complete a thorough business assessment with International Franchise Business Consultants. Evaluate your readiness and suitability for franchise ownership with expert guidance."
+        />
+      </Helmet>
+
       <div
         id="top-text"
         className="p-5 relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
