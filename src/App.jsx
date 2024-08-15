@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 import ShoppingCartPopup from "./Popups/ShoppingCartPopup";
+import { HelmetProvider } from "react-helmet-async";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
@@ -69,6 +70,15 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {mobileActive && (
+        <MobileNav
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+          selectedCandName={selectedCandName}
+          setShow={setShowCart}
+        />
+      )}
       <AnimatePresence mode="wait">
         <Header
           mobileActive={mobileActive}
@@ -78,23 +88,14 @@ const App = () => {
           selectedCandName={selectedCandName}
           setShow={setShowCart}
         />
-        {mobileActive && (
-          <MobileNav
-            setMobileActive={setMobileActive}
-            active={active}
-            setActive={setActive}
-            selectedCandName={selectedCandName}
-            setShow={setShowCart}
+        <HelmetProvider>
+          <RouteRenderer
+            isAuthenticated={token}
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
           />
-        )}
-
-        <RouteRenderer
-          isAuthenticated={token}
-          setShow={setShow}
-          setRegistrationType={setRegistrationType}
-        />
-
-        <CartIcon setShow={setShowCart} />
+        </HelmetProvider>
+        {/* <CartIcon setShow={setShowCart} /> */}
 
         <ListingDataContext>
           <CandidatesDataContext>
@@ -104,7 +105,7 @@ const App = () => {
                 show={show}
                 registrationType={registrationType}
               />
-              <ShoppingCartPopup setShow={setShowCart} show={showCart} />
+              {/* <ShoppingCartPopup setShow={setShowCart} show={showCart} /> */}
             </TCFRDataContext>
           </CandidatesDataContext>
         </ListingDataContext>

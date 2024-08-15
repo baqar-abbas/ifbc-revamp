@@ -44,7 +44,6 @@ const FormSecondRow = ({
   useEffect(() => {
     if (selectedFranchises.length > 0 && visitedSteps.candprofile) {
       const franchisesIds = selectedFranchises.map((fr) => fr.docId);
-      console.log(franchisesIds);
 
       setFormFields((prev) => ({
         ...prev,
@@ -87,42 +86,17 @@ const FormSecondRow = ({
                   setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
                   setSelectedFranchises(e.value);
                 }}
-                options={listingNames}
+                options={[...listingNames, { docid: 0, name: "Others" }]}
                 optionLabel="name"
                 filter
                 placeholder="Select a franchise"
-                className=" candidate-select w-full flex  "
-              />
-              {/* <select
-                name="franchiseInterested"
-                className="candidate-select w-full"
+                className=" candidate-select w-full flex"
                 style={{
                   borderColor: formErrors.franchiseInterested
                     ? "red"
                     : undefined,
                 }}
-                onChange={handleInputChange}
-                value={formFields.franchiseInterested || ""} // Set the value of the select box
-              >
-                <option value="" hidden={formFields.franchiseInterested}>
-                  Select a franchise
-                </option>
-                {listingNames
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((item) => (
-                    <option
-                      key={item.docId} // Add a unique key for each option
-                      value={item.docId}
-                      {...(candNames
-                        ? candNames.length > 0
-                          ? { selected: selectedDetails?.franchiseInterested }
-                          : { selected: candDetails?.franchiseInterested }
-                        : { selected: formFields?.franchiseInterested })}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-              </select> */}
+              />
             </>
           ) : (
             <h1>Loading...</h1>
@@ -135,7 +109,7 @@ const FormSecondRow = ({
             Requested Territory Zip / Postal Code*
           </p>
           <input
-            type="tel"
+            type="number"
             name="territoryZipcode"
             className="candidate-input w-full"
             style={{
@@ -269,7 +243,7 @@ const FormSecondRow = ({
         <div className="candidate-sub-childs">
           <p className="candidate-label"> Current Zip / Postal Code*</p>
           <input
-            type="tel"
+            type="number"
             name="currentZipcode"
             className="candidate-input w-full"
             style={{

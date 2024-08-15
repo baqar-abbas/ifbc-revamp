@@ -24,7 +24,7 @@ const Services = () => {
             /> */}
 
             <video
-              className="w-full h-[1150px] object-cover rounded-3xl"
+              className="w-full max-md:h-full md:h-[1050px] object-cover rounded-3xl"
               controls={true}
               muted={true}
               loop={true}
@@ -64,11 +64,11 @@ const Steps = () => {
         "Guided Start: Franchisees often receive extensive training and ongoing support from the franchisor, making it an attractive option for those who may be new to business ownership.",
     },
     {
-      imgSrc: "/images/home-seven/process-5.png",
+      imgSrc: "/images/logo/crmlogo.jpg",
       stepNumber: "04",
-      title: "Easier Access to Financing",
+      title: "Streamlined Franchise Management",
       description:
-        "Lender Confidence: Lenders are often more confident in financing franchise ventures due to their established success and lower risk compared to new business ventures.",
+        "Our CRM system offers a centralized platform where you can monitor and control various facets of your franchise business, ensuring everything runs smoothly and efficiently.",
     },
   ];
 

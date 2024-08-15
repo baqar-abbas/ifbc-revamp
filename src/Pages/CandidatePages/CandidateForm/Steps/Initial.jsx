@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import axios from "axios";
+import HorizontalNonLinearStepper from "../Stepper";
 
 const investmentOptions = [
   { value: "AA", label: "Select one" },
@@ -23,7 +24,7 @@ const fundingOptions = [
   { value: "No funding required", label: "No funding required" },
 ];
 const creditScoreOptions = [
-  { value: "AA", label: "Select one" },
+  { value: "", label: "Select one" },
   { value: "Excellent - 780 to 850", label: "Excellent - 780 to 850" },
   { value: "Very good - 740 to 779", label: "Very good - 740 to 779" },
   {
@@ -137,6 +138,7 @@ const Initial = ({
   docid,
   visitedSteps,
   setVisitedSteps,
+  step,
 }) => {
   const fetchCandidates = async () => {
     const url = `https://backend.ifbc.co/api/initialqualify/${docid}`;
@@ -164,6 +166,7 @@ const Initial = ({
     e.preventDefault();
     setVisitedSteps((prev) => ({ ...prev, initial: true }));
     setStep((prevStep) => prevStep + 1);
+    window.scrollTo(0, 5);
   };
 
   // Sort the options alphabetically by label
@@ -171,15 +174,28 @@ const Initial = ({
     a.value.localeCompare(b.value)
   );
 
-  // Sort the options alphabetically by value
-  const sortedcreditScoreOptions = creditScoreOptions.sort((a, b) =>
-    a.value.localeCompare(b.value)
-  );
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      event.preventDefault();
+      if (event.key === "Backspace") {
+        handlePreviousClick();
+      } else if (event.key === "Enter") {
+        handleInitial(event);
+      }
+    };
 
-  // Sort the options alphabetically by value
-  const sortedBackgroundOptions = backgroundOptions.sort((a, b) =>
-    a.value.localeCompare(b.value)
-  );
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handlePreviousClick = () => {
+    setVisitedSteps((prev) => ({ ...prev, initial: true }));
+    setStep((prevStep) => prevStep - 1);
+    window.scrollTo(0, 5);
+  };
 
   return (
     <motion.div
@@ -190,9 +206,11 @@ const Initial = ({
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
       id="initial"
-      className="candidate-tabs-content"
+      className="candidate-tabs-content grid grid-cols-12  gap-3"
     >
-      <div className="">
+      <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
+
+      <div className="col-span-7 p-6">
         <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +306,7 @@ const Initial = ({
               id="score"
               className="candidate-select"
             >
-              {sortedcreditScoreOptions.map((option, index) => (
+              {creditScoreOptions.map((option, index) => (
                 <option
                   key={index}
                   value={option.value}
@@ -475,11 +493,8 @@ const Initial = ({
             className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
-              className="candidate-btn w-40 flex items-center justify-between"
-              onClick={() => {
-                setVisitedSteps((prev) => ({ ...prev, initial: true }));
-                setStep((prevStep) => prevStep - 1);
-              }}
+              className="candidate-btn md:w-40 max-md:w-full  flex items-center justify-between"
+              onClick={handlePreviousClick}
             >
               {" "}
               <svg
@@ -501,10 +516,10 @@ const Initial = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
-              className="candidate-btn  w-40  flex items-center justify-between"
+              className="candidate-btn md:w-40 max-md:w-full  flex items-center justify-between"
               onClick={handleInitial}
             >
               Next

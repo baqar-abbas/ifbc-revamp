@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 
@@ -11,6 +12,7 @@ import {
   validateUsername,
 } from "src/Utils/SanitizeInput";
 import { twMerge } from "tailwind-merge";
+import PolicyContent from "../GlobalPageSections/PolicyContent";
 
 const FundingCalculator = () => {
   const [data, setData] = useState({
@@ -161,8 +163,18 @@ const FundingCalculator = () => {
 
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Funding Calculator | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="Use our funding calculator to estimate the financial requirements for your franchise investment. Get a clear understanding of the costs involved with International Franchise Business Consultants."
+        />
+      </Helmet>
+
       <div id="description" className="flex flex-col  gap-5 my-8 ">
-        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-full md:w-[50%] mx-auto">
+        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[90%] md:w-[50%] mx-auto">
           <p className=" text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
@@ -934,7 +946,7 @@ const FundingCalculator = () => {
                   )}
                 </div>
               </div>
-              <div className=" flex md:gap-2 flex-col  w-full justify-center mx-auto max-w-[80%]">
+              <div className=" flex md:gap-2 flex-col  w-full justify-center mx-auto md:max-w-[80%]">
                 <label htmlFor="message" className="funding-questions">
                   Message
                 </label>
@@ -952,22 +964,8 @@ const FundingCalculator = () => {
                   </p>
                 )}
               </div>
-              <p className="text-sm text-custom-heading-color text-left  p-5 rounded-3xl max-w-[80%]">
-                By submitting the form, you agree to receive calls, text
-                messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
-                at the contact information provided. Message rates may apply.{" "}
-                <br />
-                Text STOP to cancel text messaging at any time. <br />
-                See{" "}
-                <a href="/terms-conditions" className="  underline">
-                  Terms & Conditions
-                </a>{" "}
-                and{" "}
-                <a href="/privacy-policy" className="  underline">
-                  Privacy Policy
-                </a>{" "}
-                for additional details.
-              </p>
+
+              <PolicyContent />
               <div className="flex justify-center">
                 <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
                   {loading ? "Loading..." : "Calculate My Results"}

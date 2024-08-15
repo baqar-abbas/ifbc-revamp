@@ -6,10 +6,18 @@ import Testimonials from "../GlobalPageSections/Testimonials";
 import PreFooter from "src/Globals/PreFooter";
 import PageTransition from "src/Animations/PageTransition";
 import { rangeRight } from "lodash";
+import { Helmet } from "react-helmet";
 
 const MainAbout = () => {
   return (
     <PageTransition>
+      <Helmet>
+        <title>About Us | International Franchise Business Consultant</title>
+        <meta
+          name="description"
+          content="Learn more about International Franchise Business Consultants. We are dedicated to helping entrepreneurs find the right franchise opportunities and offering comprehensive consulting services to ensure their success."
+        />
+      </Helmet>
       <div id="smooth-wrapper" className="md:mx-10">
         <div id="smooth-content">
           <main className="w-full">

@@ -17,6 +17,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { NavLink } from "react-router-dom";
 
 const RelatedListings = () => {
   const { listings, loading, role } = useContext(MyContext);
@@ -100,6 +101,12 @@ const RelatedListings = () => {
               }
             })}
         </Swiper>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <NavLink to="/search-franchises" className="candidate-btn md:w-64">
+          Explore More Franchises
+        </NavLink>
       </div>
     </section>
   );

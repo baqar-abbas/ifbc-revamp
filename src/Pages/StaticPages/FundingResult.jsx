@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { NavLink, useParams } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
@@ -40,6 +41,16 @@ const FundingResult = () => {
 
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Funding Results | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="View detailed funding results for your franchise investment. International Franchise Business Consultants provides comprehensive insights to help you make informed financial decisions."
+        />
+      </Helmet>
+
       <div className="bg-white p-10">
         <h1 className="text-3xl text-left">
           <span className="font-bold">Results</span>

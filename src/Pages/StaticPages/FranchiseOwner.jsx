@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 import PageTitle from "src/Globals/PageTitle";
 
@@ -74,6 +75,16 @@ const FranchiseOwner = () => {
 
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Franchise Owner | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="Information and resources for franchise owners. International Franchise Business Consultants offers support and guidance to help you maximize the success of your franchise."
+        />
+      </Helmet>
+
       <div id="wrapper">
         <div id="steps-container" className="theme-container my-10 mx-auto">
           <p className="mb-3">

@@ -109,7 +109,7 @@ const FormFirstRow = ({
           <p className="candidate-label">Phone Number*</p>
 
           <input
-            type="tel"
+            type="number"
             name="phone"
             className="candidate-input w-full"
             style={{
@@ -171,7 +171,7 @@ const FormFirstRow = ({
 
       <div id="first-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Candidate First Name</p>
+          <p className="candidate-label">Business Partner First Name</p>
           <input
             onChange={handleInputChange}
             type="text"
@@ -189,7 +189,7 @@ const FormFirstRow = ({
           />
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Candidate Last Name</p>
+          <p className="candidate-label">Business Partner Last Name</p>
           <input
             onChange={handleInputChange}
             type="text"
@@ -209,7 +209,7 @@ const FormFirstRow = ({
       </div>
       <div id="second-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Candidate Phone Number</p>
+          <p className="candidate-label">Business Partner Phone Number</p>
           <input
             onChange={handleInputChange}
             type="tel"
@@ -227,7 +227,7 @@ const FormFirstRow = ({
           />
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Candidate Email</p>
+          <p className="candidate-label">Business Partner Email</p>
           <input
             onChange={handleInputChange}
             type="email"
@@ -245,30 +245,34 @@ const FormFirstRow = ({
           />
         </div>
       </div>
-      <div className="candidate-sub-childs">
-        <p className="candidate-label">Relationship</p>
-        <select
-          onChange={handleInputChange}
-          className="candidate-input w-full"
-          style={{
-            borderColor: formErrors?.additionalRelationship ? "red" : undefined,
-          }}
-          name={`additionalRelationship`}
-        >
-          <option value="">Select One</option>
-          {relationships.map((relationship, idx) => (
-            <option
-              key={idx}
-              value={relationship}
-              selected={formFields?.additionalRelationship === relationship}
-              // selected={
-              //   contact ? contact.relationShip === relationship : false
-              // }
-            >
-              {relationship}
-            </option>
-          ))}
-        </select>
+      <div id="third-sub-row" className="candidate-two-col">
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Business Partner Relationship</p>
+          <select
+            onChange={handleInputChange}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors?.additionalRelationship
+                ? "red"
+                : undefined,
+            }}
+            name={`additionalRelationship`}
+          >
+            <option value="">Select One</option>
+            {relationships.map((relationship, idx) => (
+              <option
+                key={idx}
+                value={relationship}
+                selected={formFields?.additionalRelationship === relationship}
+                // selected={
+                //   contact ? contact.relationShip === relationship : false
+                // }
+              >
+                {relationship}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );

@@ -111,6 +111,25 @@ const MobileNav = ({
           >
             <Link to="/search-franchises"> Search Franchises (SF)</Link>
           </li>
+          <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <Link to="/become-a-consultant">Become a Consultant</Link>
+          </li>
+          <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <Link to="/apply-now">Apply Now</Link>
+          </li>
+
+          {/* <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <Link to="/make-a-referral">Make a Referral</Link>
+          </li> */}
 
           <li
             id="menu-item-552290"
@@ -119,12 +138,6 @@ const MobileNav = ({
             <a href="https://calendly.com/info-ifbc">Book an Appointment</a>
           </li>
 
-          <li
-            id="menu-item-552290"
-            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
-          >
-            <Link to="/checkout">Checkout</Link>
-          </li>
           {token ? (
             <li
               id="menu-item-552290"
@@ -138,20 +151,22 @@ const MobileNav = ({
                 id="menu-item-552290"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
-                <Link to="/login">Sign in</Link>
+                <Link to="/login">Login to your account</Link>
               </li>
               <li
                 id="menu-item-552290"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
-                <Link to="/registration">Sign up</Link>
+                <Link to="/registration">Create a new account</Link>
               </li>
 
               <li
                 id="menu-item-552290"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
-                <a href="https://crm.ifbc.co"></a>
+                <a href="https://crm.ifbc.co" target="_blank">
+                  Join our CRM now!
+                </a>
               </li>
             </>
           )}

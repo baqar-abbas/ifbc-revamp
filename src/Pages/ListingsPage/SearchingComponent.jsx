@@ -1,9 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const SearchingComponent = ({ setFilters }) => {
+const SearchingComponent = ({ setFilters, filters }) => {
   const ref = useRef();
 
   const [searchKeyword, setSearchKeyword] = useState("");
+  useEffect(() => {
+    if (!filters?.search || filters?.search === "") {
+      setSearchKeyword("");
+    }
+  }, [filters]);
+
   // Function to handle changes in the search input field
   const handleSearchInputChange = (e) => {
     e.preventDefault();
@@ -27,7 +33,7 @@ const SearchingComponent = ({ setFilters }) => {
   };
 
   return (
-    <form className="relative max-md:pb-3" onSubmit={handleSearchInputChange}>
+    <form className="relative" onSubmit={handleSearchInputChange}>
       <input
         type="search"
         id="search-field"

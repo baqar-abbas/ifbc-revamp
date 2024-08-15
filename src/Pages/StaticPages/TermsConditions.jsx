@@ -1,9 +1,20 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 
 const TermsConditions = () => {
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Terms and Conditions | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="Read the terms and conditions of using the services provided by International Franchise Business Consultants. Ensure you understand our policies and procedures."
+        />
+      </Helmet>
+
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">IFBC Terms & Conditions</h1>
 

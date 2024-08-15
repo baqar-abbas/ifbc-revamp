@@ -1,9 +1,20 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 
 const PrivacyPolicy = () => {
   return (
     <PageTransition>
+      <Helmet>
+        <title>
+          Privacy Policy | International Franchise Business Consultant
+        </title>
+        <meta
+          name="description"
+          content="Review the privacy policy of International Franchise Business Consultants. Understand how we collect, use, and protect your personal information."
+        />
+      </Helmet>
+
       <div className="max-md:p-2 md:p-16">
         {/* Heading */}
         <h2 className="disclaimer-heading">Privacy Policy</h2>

@@ -2,6 +2,8 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
 *,
 ::before,
 ::after {
@@ -14,6 +16,12 @@
 ::before,
 ::after {
   --tw-content: "";
+}
+
+.font-consultant {
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-size: 44px;
 }
 
 .swiperslidehomebanner h1 {
@@ -6552,20 +6560,16 @@ nav#header-nav ul.menu > li {
   transition: background 0.5s ease-in-out;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  font-weight: bold;
   /* background: rgb(227, 228, 230); */
-  /* background-color: rgb(219, 64, 64); */
+  /* background-color: white; */
   margin-inline: 5px;
 }
 
 nav#header-nav ul.menu > li:hover {
+  /* background: rgb(7, 55, 158); */
   background: #eb870c;
   color: white !important;
 }
-
-/* nav#header-nav{
-  position:absolute;
-} */
 
 nav#header-nav ul.menu > li:hover > a {
   color: white;
@@ -6573,7 +6577,6 @@ nav#header-nav ul.menu > li:hover > a {
 /* Ensure submenu a elements are not affected by the top-level hover */
 nav#header-nav ul.menu > li:hover ul.sub-menu a {
   color: black; /* or specify your desired color */
-  
 }
 
 nav#header-nav ul.menu > li.current-menu-item > a {
@@ -6587,8 +6590,10 @@ nav#header-nav ul.menu a {
   display: block;
   padding: 0.6rem;
   font-size: large;
+  font-weight: bold;
   line-height: 1.5rem;
   --tw-text-opacity: 1;
+
   color: rgb(0, 0, 0);
 }
 
@@ -12596,14 +12601,6 @@ blockquote {
   height: 18px;
   -webkit-tap-highlight-color: transparent;
   transform: translate3d(0, 0, 0);
-}
-#navbar-centered {
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(235, 135, 12, 1) 25%,
-    rgba(183, 94, 0, 1) 86%,
-    rgba(183, 94, 0, 1) 100%
-  );
 }
 
 .check:before {
