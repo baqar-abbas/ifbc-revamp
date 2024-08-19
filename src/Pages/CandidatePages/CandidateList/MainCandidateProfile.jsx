@@ -12,6 +12,8 @@ import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import BarLoader from "src/Animations/BarLoader";
 import { MyContext } from "src/Context/ListingDataContext";
 import FormatRawDate from "src/Utils/FormatRawDate";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
@@ -30,15 +32,23 @@ const MainCandidateProfile = () => {
     }
   }, [candDetails]);
 
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/candidateprofile/${id}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  const { data, isLoading, error } = useQuery(
+    ["CANDIDATESPROFILEPAGE", id],
+    fetchCandidates,
+    {
+      enabled: !!id, // Only enable if docid and name are available
+    }
+  );
+
   useEffect(() => {
-    if (cands && cands.length > 0) {
-      const filteredArray = cands.filter((cand) => cand.docId == id);
-      if (filteredArray.length > 0) {
-        const filtered = filteredArray[0];
-        setCandDetails(filtered || null);
-      } else {
-        history("/candidate-not-found");
-      }
+    if (!isLoading && data) {
+      setCandDetails(data);
     }
   }, [cands]);
 
@@ -54,7 +64,7 @@ const MainCandidateProfile = () => {
           setCandDetails={setCandDetails}
         />
         <div className="col-span-9 max-md:block max-md:col-span-12 w-full">
-          <Form candDetails={candDetails} />
+          <Form candDetails={candDetails} candNames={[]} />
         </div>
       </div>
     </PageTransition>

@@ -11,6 +11,7 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import HorizontalNonLinearStepper from "../Stepper";
+import axios from "axios";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -27,9 +28,8 @@ const CandidateProfile = ({
   docid,
   visitedSteps,
   setVisitedSteps,
-  completed,
-  setCompleted,
   step,
+  userDetails,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -169,7 +169,6 @@ const CandidateProfile = ({
       if (event.key === "Enter") {
         // Prevent the default Backspace behavior (like navigating back)
         event.preventDefault();
-
         handleCanProfile(event);
       }
     };
@@ -180,6 +179,52 @@ const CandidateProfile = ({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [formFields]);
+
+  const handleSubmitCandProfileApi = async () => {
+    try {
+      const formData = {
+        ...(candDetails?.docId
+          ? { DocId: candDetails?.docId }
+          : formFields?.docid
+            ? { DocId: formFields?.docid }
+            : {}),
+        firstName: formFields.firstName ?? "",
+        lastName: formFields.lastName ?? "",
+        Phone: formFields.phone ?? "",
+        Email: formFields.email ?? "",
+        additionalFirstName: formFields.additionalFirstName ?? "",
+        additionalLastName: formFields.additionalLastName ?? "",
+        additionalPhone: formFields.additionalPhone ?? "",
+        additionalEmail: formFields.additionalEmail ?? "",
+        additionalRelationship: formFields.additionalRelationship ?? "",
+        franchiseInterested: formFields.franchiseInterested ?? "",
+        territoryCity: formFields.territoryCity ?? "",
+        territoryState: formFields.territoryState ?? "",
+        territoryZipcode: formFields.territoryZipcode ?? "",
+        currentCity: formFields.currentCity ?? "",
+        currentState: formFields.currentState ?? "",
+        currentZipcode: formFields.currentZipcode ?? "",
+        Status: formFields.status ?? "",
+        PipelineStep: formFields.pipelinestep ?? "",
+        lostReason: "string",
+        AgentUserId: userDetails?.docId ?? 19,
+        isArchive: false,
+        isCompleted: true,
+      };
+      const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+      let response = "";
+
+      response = await axios.post(baseUrl, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleCanProfile = async (e) => {
     e.preventDefault();
@@ -235,10 +280,13 @@ const CandidateProfile = ({
     setFormErrors(formErrors);
 
     if (allFieldsValid) {
-      e.preventDefault();
+      //const responseStatus = await handleSubmitCandProfileApi();
+      //if (responseStatus === 201) {
       setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
-      setStep((prevStep) => prevStep + 1);
+      setLoading(false);
       window.scrollTo(0, 0);
+      setStep((prevStep) => prevStep + 1);
+      //}
     } else {
       setFormErrors((prev) => ({
         ...prev,
@@ -261,7 +309,7 @@ const CandidateProfile = ({
       className="candidate-tabs-content grid grid-cols-12  gap-3"
     >
       <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
-      <div className="col-span-7 p-6">
+      <div className="max-md:col-span-12 md:col-span-7 p-6">
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 rounded-xl p-4 flex justify-between">
             {formErrors.error}
@@ -309,9 +357,9 @@ const CandidateProfile = ({
           visitedSteps={visitedSteps}
           setVisitedSteps={setVisitedSteps}
         />
-        <div className="flex w-full justify-end">
+        <div className="flex max-md:flex-col max-md:gap-3 w-full justify-end">
           <button
-            className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
+            className="candidate-btn md:w-28 max-md:w-full flex items-center justify-between"
             type="submit"
             onClick={handleCanProfile}
           >

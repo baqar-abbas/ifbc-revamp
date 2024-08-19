@@ -53,7 +53,7 @@ const LastStep = ({
         handlePreviousClick();
       } else if (event.key === "Enter") {
         event.preventDefault();
-        handleSubmit(event);
+        handleLastStep(event);
       }
     };
 
@@ -62,7 +62,7 @@ const LastStep = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [formFields]);
 
   const handleLastStep = async (e) => {
     e.preventDefault();
@@ -91,6 +91,7 @@ const LastStep = ({
     setFormErrors(formErrors);
 
     if (allFieldsValid) {
+      setStep((prevStep) => prevStep + 1);
       handleSubmit(e);
     } else {
       setFormErrors((prev) => ({
@@ -98,7 +99,7 @@ const LastStep = ({
         error: "Please fill in all the required fields",
       }));
       setLoading(false);
-      window.scrollTo(0, 100);
+      window.scrollTo(0, 0);
 
       // Handle invalid fields (e.g., show validation errors)
     }
@@ -135,7 +136,7 @@ const LastStep = ({
         </div>
       </DialogBox>
       <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
-      <div className="col-span-7 p-6">
+      <div className="max-md:col-span-12 md:col-span-7 p-6">
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 rounded-xl p-4 flex justify-between">
             {formErrors.error}

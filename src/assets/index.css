@@ -7,7 +7,7 @@
 }
 
 .candidate-btn {
-  @apply border-2 text-sm text-center border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 font-light;
+  @apply border-2 text-sm text-center border-custom-heading-color bg-custom-heading-color text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 font-light;
 }
 
 .candidate-inverted-btn {
@@ -16,7 +16,7 @@
 
 .candidate-secondary-btn {
   @apply border-2 
-  text-center border-custom-dark-blue bg-custom-dark-blue rounded-3xl  text-white px-5  hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2 font-light;
+  text-center text-sm border-custom-dark-blue bg-custom-dark-blue rounded-3xl  text-white px-5  hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2 font-light;
 }
 .candidate-funding-btn {
   @apply border
@@ -130,17 +130,26 @@
   background-color: #5b99c2;
 }
 
-.custom-btn-class {
-
+.custom-btn-class{
   padding: 10px 20px;
   text-align: center;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 25%;
+  margin: 4px 23%;
   cursor: pointer;
   width: 15rem;
   /* border-radius: 5px; */
 }
+
+/* .appointment-btn {
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px -20%;
+  cursor: pointer;
+  width: 15rem;
+} */
 
 /* .heading h1::after {
     content: '';
@@ -241,9 +250,11 @@
 
 .desktop-video-become {
   display: block;
-  height: 72% !important;
-  margin-top: 2.5rem !important;
-  margin-left: 4.5rem;
+  width: 92% !important;
+  height: 94% !important;
+  /* margin-top: 0.3rem !important; */
+  margin-left: 2.5rem;
+  object-fit:cover;
 }
 
 .mobile-video {
@@ -343,9 +354,14 @@
   }
 
   .custom-btn-class {
-    margin: 4px 1%;
+    margin: 4px 3%;
     width: 95%;
   }
+
+  /* .appointment-btn {
+    margin: 4px 3%;
+    width: 95%;
+  } */
 }
 
 .text-custom-consultant {
@@ -416,3 +432,19 @@
 p.MuiTypography-body1 {
   font-family: "Poppins", sans-serif !important;
 }
+
+/* .text-ambassador {
+  position: relative;
+}
+
+.text-ambassador::before {
+  content: "";
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-top-left-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+} */

@@ -124,15 +124,15 @@ const MobileNav = ({
             <Link to="/apply-now">Apply Now</Link>
           </li>
 
-          {/* <li
-            id="menu-item-552290"
+          <li
+            id="menu-item-552292"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
             <Link to="/make-a-referral">Make a Referral</Link>
-          </li> */}
+          </li>
 
           <li
-            id="menu-item-552290"
+            id="menu-item-55223"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
             <a href="https://calendly.com/info-ifbc">Book an Appointment</a>
@@ -148,20 +148,20 @@ const MobileNav = ({
           ) : (
             <>
               <li
-                id="menu-item-552290"
+                id="menu-item-552295"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
                 <Link to="/login">Login to your account</Link>
               </li>
               <li
-                id="menu-item-552290"
+                id="menu-item-552267"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
                 <Link to="/registration">Create a new account</Link>
               </li>
 
               <li
-                id="menu-item-552290"
+                id="menu-item-55229214"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
                 <a href="https://crm.ifbc.co" target="_blank">

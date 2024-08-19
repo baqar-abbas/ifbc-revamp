@@ -92,7 +92,7 @@ const Header = ({
       className="sticky top-0 z-[999]"
     >
       <nav
-        className=" w-full flex flex-col items-center justify-center text-white bg-[rgba(150,147,147,0.7)] border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
+        className="w-full flex flex-col items-center justify-center text-white bg-[rgba(150,147,147,0.7)] border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
         id="header-nav"
       >
         <div
@@ -329,18 +329,21 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
               className="w-full px-3 py-2"
             />
             <NavLink to="/login" className="account-links">
-              Log Into Your Account
+              Log into your account
             </NavLink>
             <NavLink to="/registration" className="account-links">
-              Create a New Account
+              Create a new account
             </NavLink>
             <a
               href="http://crm.ifbc.co/"
               target="_blank"
               className="account-links"
             >
-              Join Our CRM Now
+              Log into our CRM
             </a>
+            <NavLink to="/ambassador/signup" className="account-links">
+              Join now as an IFBC Ambassador
+            </NavLink>
           </div>
         </>
       )}

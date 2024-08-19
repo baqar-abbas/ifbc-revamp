@@ -88,7 +88,7 @@ const ListingsFilter = () => {
 
         {
           anotherText: "Select Investment Range",
-          normalText: "Investment Range",
+          normalText: "Select Investment Range",
           property: "investmentRange",
         },
         // {
@@ -96,11 +96,6 @@ const ListingsFilter = () => {
         //   normalText: "Territories",
         //   property: "territories",
         // },
-        {
-          anotherText: "Select Year Established",
-          normalText: "Year Established",
-          property: "yearEstablished",
-        },
       ];
       setFilterData(filterDataa);
     } else {
@@ -112,46 +107,41 @@ const ListingsFilter = () => {
         // },
         {
           anotherText: "Select Franchise Fee",
-          normalText: "Franchise Fee",
+          normalText: "Select Franchise Fee",
           property: "franchiseFee",
         },
         {
           anotherText: "Select Investment Range",
-          normalText: "Investment Range",
+          normalText: "Select Investment Range",
           property: "investmentRange",
         },
 
         {
           anotherText: "Select Owned Units",
-          normalText: "Owned Units",
+          normalText: "Select Owned Units",
           property: "ownedUnits",
         },
         {
           anotherText: "Select Projected New Units",
-          normalText: "Projected New Units",
+          normalText: "Select Projected New Units",
           property: "projectedNewUnits",
         },
 
         {
           anotherText: "Select Month Cash",
-          normalText: "Month Cash",
+          normalText: "Select Month Cash",
           property: "monthCash",
         },
 
         {
           anotherText: "Select Liquidity",
-          normalText: "Liquidity",
+          normalText: "Select Liquidity",
           property: "liquidity",
         },
 
         {
-          anotherText: "Select Year Established",
-          normalText: "Year Established",
-          property: "yearEstablished",
-        },
-        {
           anotherText: "Select Territories",
-          normalText: "Territories",
+          normalText: "Select Territories",
           property: "territories",
         },
       ];
@@ -279,7 +269,7 @@ const ListingsFilter = () => {
           </div>
         </>
       )}
-      <div className="max-md:flex flex-col md:grid grid-cols-4 items-center gap-3">
+      <div className="max-md:flex flex-col md:grid grid-cols-3 items-center gap-3">
         {roleCheck && (
           <div className="w-full ">
             <SearchingComponent setFilters={setFilters} filters={filters} />

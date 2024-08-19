@@ -1,5 +1,6 @@
 import React from "react"; // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -7,48 +8,41 @@ import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const Testimonials = () => {
   const reviews = [
+    // {
+    //   image: "/images/accounts/ndtv.png",
+    //   title: "NDTV",
+    //   link: "",
+    // },
     {
-      image: "/images/accounts/ndtv.png",
-      title: "NDTV",
-      link: "",
+      image: "/images/accounts/abc.png",
+      title: "ABC",
+      link: "https://abcnewsnow.uk/business/international-franchise-business-consultant-explains-why-more-franchisees-are-going-global-out-of-the-gate/",
     },
     {
-      image: "/images/accounts/global.png",
-      title: "GLOBAL",
-      link: "",
+      image: "/images/accounts/medium.png",
+      title: "Medium",
+      link: "https://medium.com/@imperiummgroupp/ifbc-explains-how-to-choose-the-right-franchise-for-yourself-b017c573869c",
     },
     {
-      image: "/images/accounts/trt.png",
-      title: "TRT",
-      link: "",
+      image: "/images/accounts/NY.png",
+      title: "NY",
+      link: "https://thenewyorkentrepreneur.com/2023/11/ready-to-have-your-own-franchise-ifbc-explains-how-to-make-the-process-smoother/",
     },
     {
-      image: "/images/accounts/cnbc.png",
-      title: "CNBC",
-      link: "",
+      image: "/images/accounts/LA.png",
+      title: "LA",
+      link: "https://thelosangelesentrepreneur.com/2023/11/29/ifbc-gives-4-reasons-why-having-a-franchise-is-easier-than-starting-a-business-from-scratch/",
     },
-    {
-      image: "/images/accounts/cnn.png",
-      title: "CNN",
-      link: "",
-    },
-    {
-      image: "/images/accounts/fox.png",
-      title: "FOX",
-      link: "",
-    },
+    // {
+    //   image: "/images/accounts/fox.png",
+    //   title: "FOX",
+    //   link: "",
+    // },
   ];
 
   return (
     <section className="py-[30px] mb-20 bg-it-gray">
       <div className="theme-container mx-auto w-full">
-        {/* <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit mx-auto">
-          Our Testimonials
-        </h1> */}
-        {/* <h2 className="max-w-[847px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto my-4 md:my-8">
-          Customer Say About Our Services
-        </h2> */}
-
         <Swiper
           modules={[Navigation, Pagination, A11y, Autoplay]}
           spaceBetween={50}
@@ -61,12 +55,18 @@ const Testimonials = () => {
         >
           {reviews?.map((review, index) => (
             <SwiperSlide key={index}>
-              <div className="flex flex-col items-center relative pt-[52px] pb-10 px-10 bg-white rounded-2xl ">
-                <img
-                  src={review.image}
-                  alt={review.title}
-                  className="mx-auto w-64 rounded-3xl"
-                />
+              <div className="flex flex-col items-center relative pt-[52px] pb-10 px-10 bg-white rounded-2xl">
+                <a
+                  href={review.link || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={review.image}
+                    alt={review.title}
+                    className="mx-auto w-64 rounded-3xl"
+                  />
+                </a>
               </div>
             </SwiperSlide>
           ))}

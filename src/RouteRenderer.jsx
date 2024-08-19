@@ -28,7 +28,10 @@ import TermsConditions from "./Pages/StaticPages/TermsConditions";
 import BecomeAConsultant from "./Pages/StaticPages/BecomeAConsultant";
 import Referral from "./Pages/StaticPages/Referral";
 import QualifyConsultant from "./Pages/StaticPages/QualifyConsultant";
-import BecomeConsultant from "./Pages/StaticPages/BecomeConsultant";
+
+import ReferralForm from "./Pages/StaticPages/ReferralForm";
+import AmbassadorSignup from "./Ambassador/AmbassadorSignup";
+import AmbassadorDashboard from "./Ambassador/AmbassadorDashboard";
 
 const RouteRenderer = ({ setRegistrationType, setShow }) => {
   const consultantRoutes = [
@@ -101,6 +104,18 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       ),
     },
     {
+      path: "/ambassador/signup",
+      element: <AmbassadorSignup />,
+    },
+    {
+      path: "/ambassador/signup/:email",
+      element: <AmbassadorSignup />,
+    },
+    {
+      path: "/ambassador/dashboard",
+      element: <AmbassadorDashboard />,
+    },
+    {
       path: "/login",
       element: <Login />,
     },
@@ -152,18 +167,15 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       path: "/become-a-consultant",
       element: <BecomeAConsultant />,
     },
-    // {
-    //   path: "/become-consultant",
-    //   element: <BecomeConsultant />,
-    // },
-    {
-      path: "/become-consultant",
-      element: <QualifyConsultant />,
-    },
     {
       path: "/make-a-referral",
       element: <Referral />,
     },
+    {
+      path: "/become-consultant",
+      element: <QualifyConsultant />,
+    },
+
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,

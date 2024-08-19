@@ -41,8 +41,8 @@ const inViewOptions = { triggerOnce: true, threshold: 0.1 };
        variants={scrollVariants}
        transition={{ duration: 2 }}
       >
-      <section className="flex justify-center max-md:flex-col md:gap-10 md:ml-2 max-md:ml-6">
-        <div className="md:w-[45.5%] max-md:w-[100%] max-md:p-4">
+      <section className="flex justify-center max-md:flex-col md:gap-2 md:ml-2 max-md:ml-6">
+        <div className="md:w-[45.5%] max-md:w-[100%] max-md:p-4 md:ml-5">
           <p className="mb-4 md:text-lg">
             Are you looking for a better career path?
           </p>
@@ -59,23 +59,32 @@ const inViewOptions = { triggerOnce: true, threshold: 0.1 };
             consulting could be your ticket to long-term success.
           </p>
                 {/* Link to the Qualify Consultant page */}
-      <div className="md:mt-5 max-md:mx-auto">
-      <Link to="/become-consultant" className="md:ml-48 candidate-btn custom-btn-class md:w-[40%] max-md:ml-2 md:mt-3 max-md:w-[95%] max-md:mt-3">
-        {/* <button className="md:ml-48 candidate-btn md:w-[40%] max-md:ml-2 md:mt-3 max-md:w-[95%] max-md:mt-3"> */}
+      <div className="md:mt-4 max-md:mx-auto">
+      <Link to="/become-consultant" className="md:ml-40 candidate-btn custom-btn-class md:w-[40%] max-md:ml-2 md:mt-0 max-md:w-[95%] max-md:mt-3">
           See If You Qualify
-        {/* </button> */}
       </Link>
       </div>
         </div>
-        <div className="md:w-[45%] max-md:w-[100%] max-md:px-3">
-          <motion.img
-            src="./images/banners/consulting.webp"
-            alt="connecting"
-            className="md:w-[100%] max-md:w-[100%] max-md:h-60 rounded-3xl md:h-[72%] object-cover"
-            initial={{ opacity: 0, scale: 0.7 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2 }}
-          />
+                <div className="md:w-[48%] max-md:w-[100%] max-md:px-4 md:mb-3 md:flex md:flex-col md:justify-start md:-mt-7">
+          <video
+            src="./video/becomeconsultant.mp4"
+            type="video/mp4"
+            autoPlay
+            controls
+            muted={true}
+            loop
+            className="desktop-video-become rounded-3xl"
+          ></video>
+
+          <video
+            src="./video/becomeaconsultantMob.mp4"
+            type="video/mp4"
+            autoPlay
+            controls
+            muted={true}
+            loop
+            className="mobile-video rounded-3xl"
+          ></video>
         </div>
 
       </section>
@@ -197,7 +206,7 @@ const inViewOptions = { triggerOnce: true, threshold: 0.1 };
 
       {/* Step by step guide Section */}
       <motion.section
-        className="about-cost flex max-md:flex-col mx-auto md:w-[95%] justify-center md:ml-5 max-md:ml-5 max-md:px-2 md:mb-20 max-md:mb-10 md:shadow-xl md:rounded-xl md:bg-white md:p-4"
+        className="about-cost flex max-md:flex-col mx-auto md:w-[95%] justify-center md:ml-5 max-md:ml-5 max-md:px-2 md:mb-20 max-md:mb-10 md:shadow-xl md:rounded-xl md:bg-white md:p-4 md:gap-3"
         initial="hidden"
         whileInView="visible"
         viewport={inViewOptions}
@@ -218,7 +227,13 @@ const inViewOptions = { triggerOnce: true, threshold: 0.1 };
               </li>
               <li>
                 • The company offers extensive technology tools and
-                industry-specific CRM software.
+                industry-specific 
+                <a
+          href="https://crm.ifbc.co/"
+          className="text-blue-500 underline ml-1"
+        >
+           CRM software.
+        </a>
               </li>
               <li>
                 • An intranet communication platform for sharing best practices.
@@ -231,31 +246,26 @@ const inViewOptions = { triggerOnce: true, threshold: 0.1 };
             <p className="mt-3">
               A franchise consulting franchise offers enormous growth potential.
               We can give you all the details and help you explore opportunities
-              with IFBC. Call 90-TEAM-IFBC or book an appointment.
+              with IFBC. Call <a href="tel:90-HELP-IFBC" className="text-blue-500 underline mr-1">90-HELP-IFBC(914-357-4322)</a> or
+              <a
+          href="https://calendly.com/info-ifbc"
+          className="text-blue-500 underline ml-1"
+        >
+           book an appointment.
+        </a>
             </p>
           </p>
           <Link to="/become-consultant" className="candidate-btn custom-btn-class">Get in Touch</Link>
         </div>
-        <div className="md:w-[44.5%] max-md:w-[100%] max-md:px-4 md:mb-3 md:flex md:flex-col md:justify-center md:items-center">
-          <video
-            src="./video/becomeconsultant.mp4"
-            type="video/mp4"
-            autoPlay
-            controls
-            muted={true}
-            loop
-            className="desktop-video-become rounded-3xl"
-          ></video>
-
-          <video
-            src="./video/becomeaconsultantMob.mp4"
-            type="video/mp4"
-            autoPlay
-            controls
-            muted={true}
-            loop
-            className="mobile-video rounded-3xl"
-          ></video>
+        <div className="md:w-[44.5%] max-md:w-[100%] max-md:px-3 md:mt-1">
+          <motion.img
+            src="./images/banners/consulting.webp"
+            alt="connecting"
+            className="md:w-[100%] max-md:w-[100%] max-md:h-60 rounded-3xl md:h-[87%] object-cover"
+            initial={{ opacity: 0, scale: 0.7 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 2 }}
+          />
         </div>
       </motion.section>
     </PageTransition>

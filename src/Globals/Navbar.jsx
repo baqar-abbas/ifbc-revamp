@@ -3,7 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const Navbar = ({ active, setActive, selectedCandName }) => {
   const style = ({ isActive }) => ({
-    background: isActive ? "rgb(0 17 54)" : "",
+    // background: isActive ? "rgb(0 17 54)" : "", #eb870c
+    background: isActive ? "#eb870c" : "",
     color: isActive ? "white" : "",
     borderTopLeftRadius: isActive ? "10px" : "",
     borderTopRightRadius: isActive ? "10px" : "",
@@ -23,9 +24,9 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
 
   const navItems = [
     {
-      id: "menu-item-552360",
-      path: "/funding-calculator",
-      label: "Funding Calculator",
+      id: "menu-item-552363",
+      path: "/become-a-consultant",
+      label: "Become a Consultant",
     },
     {
       id: "menu-item-552361",
@@ -33,18 +34,16 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
       label: "Business Assessment",
     },
     {
+      id: "menu-item-552360",
+      path: "/funding-calculator",
+      label: "Funding Calculator",
+    },
+
+    {
       id: "menu-item-552362",
       path: "/search-franchises",
       label: "Search Franchises (SF)",
     },
-    {
-      id: "menu-item-552363",
-      path: "/become-a-consultant",
-      label: "Become a Consultant",
-    },
-  ];
-
-  const extraLink = [
     {
       id: "menu-item-552366",
       path: "/apply-now",
@@ -52,77 +51,85 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
     },
   ];
 
-  const combinedNavLinks = !token ? [...navItems, ...extraLink] : navItems;
+  const navItemsConsultant = [
+    {
+      id: "menu-item-552362",
+      path: "/search-franchises",
+      label: "Search Franchises (SF)",
+    },
+  ];
 
+  const consultantRoleCheck = token && role && role === "C";
   return (
     <div className="max-md:hidden md:block  relative">
       <ul className="menu">
-        {role && role !== "N" && token && (
-          <li
-            id="menu-item-552041"
-            className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}
-          >
-            <NavLink to="/apply-now" style={style} aria-current="page">
-              Candidates
-            </NavLink>
-            <ul className="sub-menu z-[999] relative">
-              {/* first column */}
-              <li
-                id="menu-item-552042"
-                className="icon-fls  current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552042"
-              >
-                <div className="flex">
-                  <div className="h-8 w-8 text-[#2176ff] ml-4 mr-2"></div>
-                  <div className="nav-heading flex-1">
-                    <NavLink
-                      aria-current="page"
-                      className=" gap-3"
-                      style={{ display: "flex" }}
-                    >
-                      {" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
+        {consultantRoleCheck ? (
+          <>
+            <li
+              id="menu-item-552041"
+              className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}
+            >
+              <NavLink to="/apply-now" style={style} aria-current="page">
+                Candidates
+              </NavLink>
+              <ul className="sub-menu z-[999] relative">
+                {/* first column */}
+                <li
+                  id="menu-item-552042"
+                  className="icon-fls  current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552042"
+                >
+                  <div className="flex">
+                    <div className="h-8 w-8 text-[#2176ff] ml-4 mr-2"></div>
+                    <div className="nav-heading flex-1">
+                      <NavLink
+                        aria-current="page"
+                        className=" gap-3"
+                        style={{ display: "flex" }}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                        />
-                      </svg>
-                      My Candidates{" "}
-                    </NavLink>
+                        {" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                          />
+                        </svg>
+                        My Candidates{" "}
+                      </NavLink>
 
-                    <ul className="sub-menu">
-                      <li
-                        id="menu-item-552043"
-                        className=" current_page_item menu-item menu-item-type-custom menu-item-object-custom  menu-item-552043"
-                      >
-                        <NavLink
-                          to="/candidate-list"
-                          style={innerNavLinkStyle}
-                          aria-current="page"
+                      <ul className="sub-menu">
+                        <li
+                          id="menu-item-552043"
+                          className=" current_page_item menu-item menu-item-type-custom menu-item-object-custom  menu-item-552043"
                         >
-                          Candidate List
-                        </NavLink>
-                        <NavLink
-                          to="/apply-now"
-                          style={innerNavLinkStyle}
-                          aria-current="page"
-                        >
-                          New Candidate
-                        </NavLink>
-                      </li>
-                    </ul>
+                          <NavLink
+                            to="/candidate-list"
+                            style={innerNavLinkStyle}
+                            aria-current="page"
+                          >
+                            Candidate List
+                          </NavLink>
+                          <NavLink
+                            to="/apply-now"
+                            style={innerNavLinkStyle}
+                            aria-current="page"
+                          >
+                            New Candidate
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
 
-              <li
+                {/* <li
                 id="menu-item-552042"
                 className="icon-fls  current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552042"
               >
@@ -181,42 +188,46 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
                     </ul>
                   </div>
                 </div>
+              </li> */}
+              </ul>
+            </li>
+            <li
+              id="menu-item-552360"
+              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+            >
+              <NavLink onClick={() => setActive(!active)}>
+                <div className="text-custom-heading-color text-[14px]  flex items-center">
+                  {selectedCandName && selectedCandName.name
+                    ? selectedCandName.name
+                    : "No Candidate Selected"}
+                </div>
+              </NavLink>
+            </li>
+            {navItemsConsultant.map((item) => (
+              <li
+                key={item.id}
+                id={item.id}
+                className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"
+              >
+                <NavLink to={item.path} style={style}>
+                  {item.label}
+                </NavLink>
               </li>
-            </ul>
-          </li>
-        )}
-
-        {combinedNavLinks.map((item) => (
-          <li
-            key={item.id}
-            id={item.id}
-            className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"
-          >
-            {/* token srf ek boolean hai jo login pr set hojata login krega banda to true hojaega logout krega to false hojaega */}
-            {/* !token ka mtlb hum check krhe ke token false hi hai ya nhi */}
-            {/*  item.path ye hamare links arhe */}
-            {/* {ye chaar links arhe hain tum path ki jaga label bhi use krskte the condition may id bhi use krskte aese same kaam krega } */}
-
-            <NavLink to={item.path} style={style}>
-              {item.label}
-              <span className="mx-5 font-normal">|</span>
-            </NavLink>
-          </li>
-        ))}
-
-        {token && role && role === "C" && (
-          <li
-            id="menu-item-552360"
-            className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
-          >
-            <NavLink onClick={() => setActive(!active)}>
-              <div className="text-custom-heading-color text-[14px]  flex items-center">
-                {selectedCandName && selectedCandName.name
-                  ? selectedCandName.name
-                  : "No Candidate Selected"}
-              </div>
-            </NavLink>
-          </li>
+            ))}
+          </>
+        ) : (
+          navItems.map((item) => (
+            <li
+              key={item.id}
+              id={item.id}
+              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"
+            >
+              <NavLink to={item.path} style={style}>
+                {item.label}
+                <span className="mx-5 font-normal">|</span>
+              </NavLink>
+            </li>
+          ))
         )}
       </ul>
     </div>

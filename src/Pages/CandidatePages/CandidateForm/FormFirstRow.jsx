@@ -12,7 +12,7 @@ const FormFirstRow = ({
 }) => {
   const relationships = ["Business Partner", "Spouse", "Family Member"];
   return (
-    <div id="first-row" className={`${candDetails ? "" : ""} py-5 w-full`}>
+    <div id="first-row" className={`${candDetails ? "" : ""} md:py-5 w-full`}>
       <h1 className="candidate-sub-heading">
         <svg
           xmlns="http://www.w3.org/2000/svg"
