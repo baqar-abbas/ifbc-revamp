@@ -40,12 +40,12 @@ const ShoppingCartPopup = () => {
   }, []);
   return (
     <motion.div
-      className={` pointer-events-auto bg-[#2176ff]/30 rounded-3xl  transition-all duration-500 ease-in-out  ${
-        isSticky ? "sticky top-32 md:mt-6" : "w-full md:mt-3 relative "
-      }`}
+      className={` pointer-events-auto bg-[#2176ff]/30 rounded-3xl  transition-all duration-500 ease-in-out   ${
+        isSticky ? "sticky  md:mt-6" : "w-full md:mt-3 relative "
+      } ${cartListings?.length > 0 ? (isSticky ? "top-32" : "") : "top-44 p-2"}`}
     >
       {cartListings?.length > 0 ? (
-        <div className="my-1 overflow-y-auto px-4 py-6 w-full">
+        <div className=" overflow-y-auto px-4 py-6 w-full">
           <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-1 mb-4 rounded-3xl">
             Review Franchises
           </h1>
@@ -133,12 +133,17 @@ const ShoppingCartPopup = () => {
 
 const NoListingsFound = () => {
   return (
-    <div className="flex flex-col justify-center items-center gap-6  h-full p-4">
-      <h1 className="text-md  text-center  text-custom-heading-color">
-        Select up to 20 franchises to gain detailed insights and make informed
-        decisions!
+    <>
+      <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-1 rounded-3xl">
+        Franchise List
       </h1>
-    </div>
+      <div className="flex flex-col justify-center items-center gap-6  h-full p-2">
+        <h1 className="text-md  text-center  text-custom-heading-color">
+          Select up to 20 franchises to gain detailed insights and make informed
+          decisions!
+        </h1>
+      </div>
+    </>
   );
 };
 
@@ -174,7 +179,16 @@ const CheckOutForm = ({ cartListings, listings }) => {
   ];
 
   const validateFields = () => {
-    const reqFields = ["firstname", "lastname", "email", "phone", "zipcode"];
+    const reqFields = [
+      "firstname",
+      "lastname",
+      "email",
+      "phone",
+      "zipcode",
+      "desiredLoc",
+      "timeFrame",
+      "availCapital",
+    ];
     let allFieldsValid = true;
     let formErrors = {};
 
@@ -242,9 +256,9 @@ const CheckOutForm = ({ cartListings, listings }) => {
         phone: formFields.phone,
         email: formFields.email,
         zipcode: formFields.zipcode,
-        desiredLoc: formFields.desiredLoc ?? "Alabama",
-        timeFrame: formFields.timeFrame ?? "1-3 months",
-        availCapital: formFields.availCapital ?? "Less than $10,000",
+        desiredLoc: formFields.desiredLoc,
+        timeFrame: formFields.timeFrame,
+        availCapital: formFields.availCapital,
         newsletter: formFields.newsletter ?? false,
         cartListings: JSON.stringify(cartListings),
       };
@@ -331,13 +345,8 @@ const CheckOutForm = ({ cartListings, listings }) => {
         </div>
       </DialogBox>
       <form className="flex flex-col gap-2 rounded-lg ">
-        {/* <div>
-          <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-1 capitalize  rounded-3xl mt-5">
-            Fill in your details
-          </h1>
-        </div> */}
         {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-2 items-center flex justify-between mt-5 text-sm">
+          <p className="border-2 border-red-600 text-red-600 p-1 items-center flex justify-between mt-2 text-xs">
             {formErrors.error}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -345,7 +354,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-5"
+              className="size-4"
             >
               <path
                 strokeLinecap="round"
@@ -356,7 +365,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           </p>
         )}
         <div className="flex gap-2">
-          <div className="my-1">
+          <div className="">
             <input
               onChange={handleInputChange}
               name="firstname"
@@ -373,7 +382,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
             )}
           </div>
 
-          <div className="my-1 ">
+          <div className=" ">
             <input
               onChange={handleInputChange}
               name="lastname"
@@ -391,7 +400,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          <div className="my-1">
+          <div className="">
             <input
               onChange={handleInputChange}
               name="phone"
@@ -409,7 +418,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
             )}
           </div>
 
-          <div className="my-1">
+          <div className="">
             <input
               onChange={handleInputChange}
               name="zipcode"
@@ -421,7 +430,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
             />
           </div>
         </div>
-        <div className="my-1">
+        <div className="">
           <input
             onChange={handleInputChange}
             name="email"
@@ -437,23 +446,21 @@ const CheckOutForm = ({ cartListings, listings }) => {
             </p>
           )}
         </div>
-        <div className="my-1">
+        <div className="">
           <input
             name="desiredLoc"
-            className={`candidate-select w-full ${
-              formErrors.desiredLoc ? "bg-red-300" : ""
-            }`}
+            className="candidate-select w-full "
+            style={{ borderColor: formErrors.desiredLoc ? "red" : undefined }}
             id="desiredLoc"
             placeholder="Desired Location"
             onChange={handleInputChange}
           />
         </div>
-        <div className="my-1">
+        <div className="">
           <select
             name="availCapital"
-            className={`candidate-select w-full ${
-              formErrors.availCapital ? "bg-red-300" : ""
-            }`}
+            className="candidate-select w-full"
+            style={{ borderColor: formErrors.availCapital ? "red" : undefined }}
             id="availCapital"
             onChange={handleInputChange}
           >
@@ -464,10 +471,11 @@ const CheckOutForm = ({ cartListings, listings }) => {
             ))}
           </select>
         </div>
-        <div className="my-1">
+        <div className="">
           <select
             name="timeFrame"
             className="candidate-select w-full "
+            style={{ borderColor: formErrors.timeFrame ? "red" : undefined }}
             id="timeFrame"
             onChange={handleInputChange}
           >

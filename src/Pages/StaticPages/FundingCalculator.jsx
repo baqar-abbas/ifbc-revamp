@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+import { motion, useInView } from "framer-motion";
 
 import {
   formatCurrency,
@@ -161,6 +162,16 @@ const FundingCalculator = () => {
     }
   };
 
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    hiddenRight: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
     <PageTransition>
       <Helmet>
@@ -174,7 +185,14 @@ const FundingCalculator = () => {
       </Helmet>
 
       <div id="description" className="flex flex-col  gap-5 my-8 ">
-        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[90%] md:w-[50%] mx-auto">
+        <motion.div
+          className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[90%] md:w-[50%] mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{ duration: 2 }}
+        >
           <p className=" text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
@@ -209,9 +227,16 @@ const FundingCalculator = () => {
             Discover your retirement account’s true investing power (and the
             ability to finance your franchise with money you already have)
           </p>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col text-center gap-4 ">
+        <motion.div
+          className="flex flex-col text-center gap-4 "
+          initial="hiddenRight"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{ duration: 2 }}
+        >
           <p className="font-bold text-center max-md:text-xl md:text-2xl">
             PRE-QUALIFY FOR FUNDING
           </p>
@@ -219,7 +244,7 @@ const FundingCalculator = () => {
             Determine How Much And What Sources Of Options <br></br> Are
             Available To You
           </p>
-        </div>
+        </motion.div>
 
         <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
           {formErrors.error && (
@@ -242,7 +267,14 @@ const FundingCalculator = () => {
             </p>
           )}
           <form onSubmit={handleSubmit}>
-            <div className="my-10">
+            <motion.div
+              className="my-10"
+              initial="hidden"
+              whileInView="visible"
+              viewport={inViewOptions}
+              variants={scrollVariants}
+              transition={{ duration: 2 }}
+            >
               <div className="flex gap-2 items-center">
                 <p
                   className={`funding-questions ${formErrors.franchiseLocation ? "border border-[#dc2626] p-2 w-full" : ""}`}
@@ -324,7 +356,7 @@ const FundingCalculator = () => {
                   </span>
                 </label>
               </div>
-            </div>
+            </motion.div>
 
             <div className="my-10">
               <p
@@ -870,7 +902,14 @@ const FundingCalculator = () => {
               </div>
             </div>
 
-            <div className="w-full mx-auto gap-2 flex justify-center items-center flex-col shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.07),0px_0px_0px_1px_rgba(25,28,33,0.1)] p-5 rounded-3xl bg-[#2176ff]/30">
+            <motion.div
+              className="w-full mx-auto gap-2 flex justify-center items-center flex-col shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.07),0px_0px_0px_1px_rgba(25,28,33,0.1)] p-5 rounded-3xl bg-[#2176ff]/30"
+              initial="hidden"
+              whileInView="visible"
+              viewport={inViewOptions}
+              variants={scrollVariants}
+              transition={{ duration: 2 }}
+            >
               <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full justify-center">
                 <div className="candidate-sub-childs">
                   <p className="funding-questions">First Name</p>
@@ -971,7 +1010,7 @@ const FundingCalculator = () => {
                   {loading ? "Loading..." : "Calculate My Results"}
                 </button>
               </div>
-            </div>
+            </motion.div>
           </form>
         </div>
       </div>

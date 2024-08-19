@@ -53,7 +53,7 @@ export default function HorizontalNonLinearStepper({
   };
 
   return (
-    <div className="col-span-5 bg-white p-5 rounded-tl-3xl rounded-bl-3xl">
+    <div className="max-md:col-span-12 md:col-span-5 bg-white p-5 max-md:rounded-3xl md:rounded-tl-3xl md:rounded-bl-3xl">
       <ProgressBar activeStep={activeStep} />
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
@@ -65,14 +65,6 @@ export default function HorizontalNonLinearStepper({
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
     </div>
   );
 }
@@ -84,12 +76,14 @@ const ProgressBar = ({ activeStep }) => {
     <div className="progress-container mb-5  bg-custom-dark-blue/10 p-2 rounded-3xl">
       <div className="p-3">
         <h1 className="text-custom-heading-color text-sm capitalize">
-          Currently {activeStep} out of 7 steps completed
+          {activeStep !== steps.length
+            ? `Currently ${activeStep} out of 7 steps completed`
+            : `All steps completed successfully!`}
         </h1>
         <div
           className="progress-bar bg-[#2b7cff] mt-2 rounded-[1em] flex justify-center items-center "
           style={{
-            width: `${progressPercentage === 0 ? 10 : progressPercentage + 14}%`,
+            width: `${progressPercentage === 0 ? 10 : progressPercentage}%`,
           }}
         >
           <div className="progress-text text-left  text-white text-sm">

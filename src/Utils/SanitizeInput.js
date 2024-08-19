@@ -26,6 +26,23 @@ export function validateZipcode(zipcode) {
   return /^\d{5}(-\d{4})?$/.test(zipcode);
 }
 
+export function validateStrongPassword(password) {
+  // At least one uppercase letter
+  const hasUpperCase = /[A-Z]/.test(password);
+  // At least one lowercase letter
+  const hasLowerCase = /[a-z]/.test(password);
+  // At least one number
+  const hasNumber = /[0-9]/.test(password);
+  // At least one special character
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  // Minimum length of 8 characters
+  const isValidLength = password.length >= 8;
+
+  return (
+    hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isValidLength
+  );
+}
+
 export function removeSpecificText(input, textToRemove) {
   const regex = new RegExp(textToRemove, "gi");
   return input.replace(regex, "").trim();

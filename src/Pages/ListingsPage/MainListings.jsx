@@ -2,7 +2,7 @@ import ShoppingCartPopup from "src/Popups/ShoppingCartPopup";
 import AllListings from "./AllListings";
 import ListingsFilter from "./ListingsFilter";
 import PageTransition from "src/Animations/PageTransition";
-import RelatedListings from "src/Globals/RelatedListings";
+// import RelatedListings from "src/Globals/RelatedListings";
 import { Helmet } from "react-helmet";
 
 const MainListings = ({ setShow, setRegistrationType }) => {
@@ -23,24 +23,23 @@ const MainListings = ({ setShow, setRegistrationType }) => {
         id="main"
       >
         <div
-          id="left-sidebar"
-          className="md:col-span-3  sm:col-span-6 col-span-12 mt-3  bg-white"
-        >
-          <ShoppingCartPopup />
-        </div>
-
-        <div
           id="right-sidebar"
-          className="md:col-span-9 sm:col-span-6 col-span-12 "
+          className="md:col-span-9 sm:col-span-6 col-span-12 max-md:order-2"
         >
           <AllListings
             setShow={setShow}
             setRegistrationType={setRegistrationType}
           />
         </div>
+        <div
+          id="left-sidebar"
+          className="md:col-span-3 sm:col-span-6 col-span-12 mt-3 bg-white max-md:order-1"
+        >
+          <ShoppingCartPopup />
+        </div>
       </main>
 
-      <RelatedListings />
+      {/* <RelatedListings /> */}
     </PageTransition>
   );
 };

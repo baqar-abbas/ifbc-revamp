@@ -19,7 +19,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { NavLink } from "react-router-dom";
 
-const RelatedListings = () => {
+const RelatedListings = ({ isForm }) => {
   const { listings, loading, role } = useContext(MyContext);
   function getRandomNumberInInterval(min, max, interval) {
     const rangeMin = Math.ceil(min / interval) * interval;

@@ -1,8 +1,19 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import PageTransition from "src/Animations/PageTransition";
+import { motion, useInView } from "framer-motion";
 
 const BusinessAssessment = () => {
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    hiddenSmall: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
     <PageTransition>
       <Helmet>
@@ -26,13 +37,27 @@ const BusinessAssessment = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white font-bold text-center z-20">
+        <motion.h1
+          className="max-md:text-3xl md:text-5xl text-white font-bold text-center z-20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{ duration: 1 }}
+        >
           Find A Franchise That Is Best For You With Our Assessment
-        </h1>
-        <h3 className="max-md:text-md md:text-xl text-white  font-bold text-center z-20">
+        </motion.h1>
+        <motion.h3
+          className="max-md:text-md md:text-xl text-white  font-bold text-center z-20"
+          initial="hiddenSmall"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{ duration: 1 }}
+        >
           Match your skills and talents with the right businesses with our 5-10
           minute online assessment
-        </h3>
+        </motion.h3>
         <a
           className="z-50 bg-white rounded-sm p-2 text-custom-dark-blue my-2 font-bold px-10"
           href="https://www.zorakle.net/assessment/welcome/ifbc"
@@ -46,9 +71,22 @@ const BusinessAssessment = () => {
       <section className="theme-container mx-auto w-full my-10 flex flex-col gap-10">
         <ServicesGrid />
 
-        <div className="max-md:flex flex-col md:grid grid-cols-2 my-5">
+        <motion.div
+          className="max-md:flex flex-col md:grid grid-cols-2 my-5"
+          initial="hiddenSmall"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{ duration: 1 }}
+        >
           <div className="w-full">
-            <img src={"/images/accounts/partner.jpg"} className="rounded-xl" />
+            <motion.img
+              src={"/images/accounts/partner.jpg"}
+              className="rounded-xl"
+              initial={{ opacity: 0, scale: 0.7 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 2 }}
+            />
           </div>
           <div className=" flex flex-col md:mx-10 gap-2 justify-center max-md:mt-5">
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">
@@ -73,7 +111,7 @@ const BusinessAssessment = () => {
               the type of culture in which you will thrive.
             </p>
           </div>
-        </div>
+        </motion.div>
       </section>
     </PageTransition>
   );
@@ -161,15 +199,37 @@ const ServicesGrid = () => {
       ),
     },
   ];
+
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
     <div className="grid :grid-cols-12 sm:max-lg:grid-cols-6 lg:grid-cols-4 gap-10  mt-[20px] ">
-      {values.map((value) => (
-        <div className="group border-4 border-custom-dark-blue p-[20px] min-h-[250px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center">
+      {values.map((value, index) => (
+        <motion.div
+          className="group border-4 border-custom-dark-blue p-[20px] min-h-[250px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={inViewOptions}
+          variants={scrollVariants}
+          transition={{
+            duration: 1.5,
+            delay: index * 0.1,
+            type: "spring",
+            bounce: 0.3,
+          }}
+        >
           <div className="flex justify-center">{value.svg}</div>
           <h1 className="text-xl text-center font-semibold text-custom-dark-blue mt-5 mb-2.5">
             {value.title}
           </h1>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

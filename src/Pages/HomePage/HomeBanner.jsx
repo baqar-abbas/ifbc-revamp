@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { motion, useInView } from "framer-motion";
 
 // Import Swiper styles
 import "swiper/css";
@@ -151,19 +152,28 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image: "/images/accounts/background.png",
+      image: "./images/accounts/background.png",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image: "/images/accounts/background.png",
+      image: "./images/accounts/background.png",
       text: "Unlock Your Potential with Our Franchises!",
     },
 
     {
-      image: "/images/accounts/background.png",
+      image: "./images/accounts/background.png",
       text: "Start Your Journey to Business Success!",
     },
   ];
+
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
 
   return (
     <>
@@ -186,8 +196,13 @@ const HomeBanner = () => {
         >
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div
+              <motion.div
                 className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-40  items-center"
+                // initial="hidden"
+                // whileInView="visible"
+                // viewport={inViewOptions}
+                // variants={scrollVariants}
+                // transition={{ duration: 2 }}
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -195,16 +210,24 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1
+                <motion.h1
                   className="max-md:text-xl  z-50 relative  md:text-5xl max-md:px-5  text-center text-white"
+                  // initial={{ opacity: 0, x: -100 }}
+                  // animate={{ opacity: 1, x: 0  }}
+                  // transition={{ duration: 2 }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={inViewOptions}
+                  variants={scrollVariants}
+                  transition={{ duration: 2 }}
                   style={{
                     lineHeight: window.innerWidth > 768 ? "3rem" : "40px",
                     textShadow: "1px 1px 10px black",
                   }}
                 >
                   {slide.text}
-                </h1>
-              </div>
+                </motion.h1>
+              </motion.div>
             </SwiperSlide>
           ))}
           {/* swiper end */}
@@ -237,6 +260,7 @@ const SearchingSection = () => {
   const [selectedInvest, setSelectedInvest] = useState("");
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setActiveDD("");
@@ -279,6 +303,16 @@ const SearchingSection = () => {
     history("/search-franchises");
   };
 
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+    hiddenBtn: { opacity: 0, x: 50 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
     <form
       id="searching-contianer"
@@ -286,7 +320,14 @@ const SearchingSection = () => {
       ref={dropdownRef}
       onSubmit={handleSearchInputChange}
     >
-      <div className="relative col-span-12 md:col-span-4  flex items-center">
+      <motion.div
+        className="relative col-span-12 md:col-span-4  flex items-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={inViewOptions}
+        variants={scrollVariants}
+        transition={{ duration: 2 }}
+      >
         <input
           type="search"
           id="search-field"
@@ -304,19 +345,28 @@ const SearchingSection = () => {
             <path d="m481.8 453-140-140.1c27.6-33.1 44.2-75.4 44.2-121.6C386 85.9 299.5.2 193.1.2S0 86 0 191.4s86.5 191.1 192.9 191.1c45.2 0 86.8-15.5 119.8-41.4l140.5 140.5c8.2 8.2 20.4 8.2 28.6 0 8.2-8.2 8.2-20.4 0-28.6zM41 191.4c0-82.8 68.2-150.1 151.9-150.1s151.9 67.3 151.9 150.1-68.2 150.1-151.9 150.1S41 274.1 41 191.4z"></path>
           </svg>
         </button>
-      </div>
+      </motion.div>
 
-      <MultiSelect
-        value={selectedCats}
-        onChange={(e) => setSelectedCats(e.value)}
-        options={categories}
-        optionLabel="code"
-        filter
-        display="chip"
-        placeholder="Select Categories"
-        // maxSelectedLabels={3}
-        className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] "
-      />
+      <motion.div
+        className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] rounded-xl flex items-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={inViewOptions}
+        variants={scrollVariants}
+        transition={{ duration: 2 }}
+      >
+        <MultiSelect
+          value={selectedCats}
+          onChange={(e) => setSelectedCats(e.value)}
+          options={categories}
+          optionLabel="code"
+          filter
+          display="chip"
+          placeholder="Select Categories"
+          // maxSelectedLabels={3}
+          className=" bg-[#e3e4e6] rounded-xl w-full"
+        />
+      </motion.div>
 
       {filterDataa.map((config, index) => (
         <SearchDropdown
@@ -328,12 +378,17 @@ const SearchingSection = () => {
           setActiveDD={setActiveDD}
         />
       ))}
-      <button
+      <motion.button
         type="submit"
         className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
+        initial="hiddenBtn"
+        whileInView="visible"
+        viewport={inViewOptions}
+        variants={scrollVariants}
+        transition={{ duration: 1 }}
       >
         Search
-      </button>
+      </motion.button>
     </form>
   );
 };
@@ -365,9 +420,23 @@ const SearchDropdown = ({
     }
   };
 
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
-    <div
+    <motion.div
       className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3 h-12 rounded-lg "
+      initial="hidden"
+      whileInView="visible"
+      viewport={inViewOptions}
+      variants={scrollVariants}
+      transition={{ duration: 2 }}
       style={{ background: "#e3e4e6 " }}
     >
       <button
@@ -440,7 +509,7 @@ const SearchDropdown = ({
             </div>
           ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -458,7 +527,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
     "Copy & Mailing",
     "Distribution Services",
     "Dry Cleaning-Laundry",
-    "Financial Services",
+    "Home Improvement",
     "Fitness",
     "Food & Beverage: Restaurant/QSR/Catering",
     "Food: Coffee/Tea/Smoothies/Sweets",
@@ -488,6 +557,16 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
 
     history("/search-franchises");
   };
+
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
     <div
       id={id}
@@ -502,7 +581,20 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {uniqueFranchisedCats.map((listing, index) => {
           if (index > min && index < max) {
             return (
-              <li key={listing.name} className="text-sm text-black list-disc ">
+              <motion.li
+                key={listing.name}
+                className="text-sm text-black list-disc "
+                initial="hidden"
+                whileInView="visible"
+                viewport={inViewOptions}
+                variants={scrollVariants}
+                transition={{
+                  duration: 2,
+                  delay: index * 0.1,
+                  type: "spring",
+                  bounce: 0.3,
+                }}
+              >
                 <button
                   onClick={() => handleSearchInputChange(listing)}
                   to="/search-franchises"
@@ -511,7 +603,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
                   {listing}
                 </button>
-              </li>
+              </motion.li>
             );
           }
         })}

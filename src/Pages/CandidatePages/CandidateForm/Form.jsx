@@ -16,7 +16,6 @@ import FranchiseCategories from "./Steps/FranchiseCategories";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import LastStep from "./Steps/LastStep";
-import HorizontalNonLinearStepper from "./Stepper";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails, role } = useContext(MyCandContext);
@@ -452,6 +451,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
 
     const { candProfileResStatus, docid } = await handleSubmitCandProfileApi();
@@ -636,6 +636,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             visitedSteps={visitedSteps}
             setVisitedSteps={setVisitedSteps}
             step={step}
+            userDetails={userDetails}
           />
         );
       case 1:
@@ -725,7 +726,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           />
         );
 
-      case 6:
+      default:
         return (
           <LastStep
             setStep={setStep}
@@ -747,7 +748,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             step={step}
           />
         );
-      default:
+
         break;
     }
   };
@@ -762,7 +763,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "max-md:max-w-[100%] items-center justify-center mx-auto mb-10 col-span-12 md:max-w-[80%] md:my-10"}  `}
+        className={`  ${candDetails ? "" : "max-md:max-w-[100%] items-center justify-center mx-auto my-10 col-span-12 md:max-w-[80%] md:my-10"}  `}
       >
         {handleSwitchCase()}
       </div>

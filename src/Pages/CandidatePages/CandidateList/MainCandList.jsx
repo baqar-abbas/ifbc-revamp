@@ -26,22 +26,25 @@ const MainCandList = () => {
   const { cands, loading } = useContext(MyCandContext);
   const [selectedCandidates, setSelectedCandidates] = useState([]);
   const [filteredCandidates, setFilteredCandidates] = useState([]);
+  const [allCandidatesIds, setAllCandidatesIds] = useState([]);
 
+  const [show, setShow] = useState(false);
+  const [allSelectedCandData, setAllSelectedCandData] = useState([]);
   const [filterCands, setFilterCands] = useState();
   const [format, setFormat] = useState(
     window.innerWidth > 768 ? "table" : "grid"
   );
   // Function to handle checkbox change
-  const handleCheckboxChange = (docId) => {
+  const handleCheckboxChange = (docid) => {
     setSelectedCandidates((prevSelected) => {
-      // Check if docId already exists in selectedMessages
-      const index = prevSelected.indexOf(docId);
+      // Check if docid already exists in selectedMessages
+      const index = prevSelected.indexOf(docid);
       if (index === -1) {
-        // Add docId if it doesn't exist
-        return [...prevSelected, docId];
+        // Add docid if it doesn't exist
+        return [...prevSelected, docid];
       } else {
-        // Remove docId if it exists
-        return prevSelected.filter((sN) => sN !== docId);
+        // Remove docid if it exists
+        return prevSelected.filter((sN) => sN !== docid);
       }
     });
   };
@@ -58,48 +61,158 @@ const MainCandList = () => {
         setFilteredCandidates(cands);
       }
     }
-  }, [filterCands?.status, loading]);
+  }, [filterCands?.status, loading, cands]);
+
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      const docids = cands.map((cand) => cand.docid);
+      const uniquedocids = [...new Set(docids)];
+      setAllCandidatesIds(uniquedocids);
+    }
+  }, [cands]);
+
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      const allMessages = cands.filter((cand) =>
+        selectedCandidates.includes(cand.docid)
+      );
+      setAllSelectedCandData(allMessages);
+    }
+  }, [selectedCandidates]);
+
+  const handleBulkActions = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setFilterCands((prev) => ({
+      ...prev,
+      action: value,
+    }));
+  };
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    const sortedArr1 = [...arr1].sort();
+    const sortedArr2 = [...arr2].sort();
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  };
+  const allSelected = arraysEqual(selectedCandidates, allCandidatesIds);
+
+  const actions = [
+    { text: "Bulk Actions" },
+    { text: "Delete" },
+    { text: "Update Lead Source" },
+    { text: "Update Deal Stage" },
+    { text: "Merge Candidates" },
+    { text: "Add Candidates to Hubspot" },
+  ];
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    //setLoading(true);
+
+    const url = "https://backend.ifbc.co/api/candidateprofile/";
+
+    allSelectedCandData.map((cand) => {
+      const formData = {
+        ...cand,
+        isArchive: filterCands.action === "Archive" ? true : false,
+        DealStage: filterCands.action === "Update Deal Stage" ? true : false,
+      };
+
+      axios
+        .put(url + cand.docid, formData)
+        .then((response) => {
+          // // Handle successful response
+          if (response.status === 204) {
+            setShow(true);
+            setTimeout(() => {
+              setShow(false);
+              window.location.reload();
+            }, 3000);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          // Handle error
+          setLoadingError(true);
+          console.error("Error fetching data:", error);
+        });
+    });
+    // Make a GET request to fetch the data
+  };
 
   return (
     // page banner
     <PageTransition>
-      <div className="flex flex-col gap-5 md:max-w-7xl md:mx-auto md:my-20 max-md:mx-5 max-md:my-5">
-        <div
-          id="cand-list-top"
-          className="md:grid md:grid-cols-3 gap-5 max-md:flex flex-col  "
-        >
-          <div className="  flex items-center ">
-            <NavLink
-              to="/apply-now"
-              className="candidate-secondary-btn w-full text-center"
+      <div className="grid grid-cols-12 gap-5 md:max-w-7xl md:mx-auto md:my-10 max-md:mx-5 max-md:my-5">
+        <div className="col-span-12 flex justify-between gap-3 p-5 bg-[#2176ff]/30 rounded-3xl">
+          <div
+            id="cand-list-top"
+            className={`md:grid  ${filterCands?.action ? "md:grid-cols-4" : "md:grid-cols-3"} gap-5 max-md:flex flex-col  w-full`}
+          >
+            <div className="flex items-center ">
+              <SearchingInput setFilterCands={setFilterCands} />
+            </div>
+            <div className=" md:flex items-center ">
+              <input
+                type="datetime-local"
+                className="candidate-input w-full"
+                onChange={() => setFilterCands({ datetime: e.target.value })}
+              />
+            </div>
+
+            {/* yahan pr  dalengay select*/}
+            <select
+              className="candidate-select"
+              name="actions"
+              onChange={handleBulkActions}
             >
-              New Candidate
-            </NavLink>
+              {actions.map((step, index) => (
+                <option key={index} value={step.text}>
+                  {step.text}
+                </option>
+              ))}
+            </select>
+
+            {filterCands?.action && filterCands?.action !== "Bulk Actions" && (
+              <button className="candidate-btn">Confirm</button>
+            )}
           </div>
-          <div className="flex items-center ">
-            <SearchingInput setFilterCands={setFilterCands} />
-          </div>
-          <div className=" md:flex items-center ">
-            <input
-              type="datetime-local"
-              className="candidate-input w-full"
-              onChange={() => setFilterCands({ datetime: e.target.value })}
-            />
-          </div>
+
+          {window.innerWidth > 768 && (
+            <div id="formatchanger" className="flex items-center">
+              <svg
+                onClick={() => setFormat("table")}
+                xmlns="http://www.w3.org/2000/svg"
+                fill={`${format === "table" ? "rgb(33 118 255)" : "black"}`}
+                className="w-8 h-8 cursor-pointer"
+                viewBox="0 0 100 100"
+              >
+                <rect x={19} y="18.92" width={60} height={16} rx={4} ry={4} />
+                <rect x={19} y="40.92" width={27} height={16} rx={4} ry={4} />
+                <rect x={19} y="62.92" width={27} height={16} rx={4} ry={4} />
+                <path d="M64.95,72.49a1.45,1.45,0,0,0,2.1,0l11.5-11.4a1.45,1.45,0,0,0,0-2.1L67,47.49a1.45,1.45,0,0,0-2.1,0l-2.1,2.1a1.45,1.45,0,0,0,0,2.1l3.6,3.6a1,1,0,0,1-.7,1.7H53.6a1.63,1.63,0,0,0-1.6,1.5v3A1.71,1.71,0,0,0,53.6,63H65.75a1,1,0,0,1,.7,1.7l-3.6,3.6a1.45,1.45,0,0,0,0,2.1Z" />
+              </svg>
+
+              <svg
+                onClick={() => setFormat("grid")}
+                xmlns="http://www.w3.org/2000/svg"
+                fill={`${format === "grid" ? "rgb(33 118 255)" : "black"}`}
+                className="w-8 h-8 cursor-pointer"
+                viewBox="0 0 100 100"
+                enableBackground="new 0 0 100 100"
+                xmlSpace="preserve"
+              >
+                <path d="M56.5,38.3c0-1-0.9-1.9-1.9-1.9H43.4c-1,0-1.9,0.9-1.9,1.9V72c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9  V38.3z M34,38.3c0-1-0.9-1.9-1.9-1.9H20.9c-1,0-1.9,0.9-1.9,1.9V77c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9V38.3z M79,38.3  c0-1-0.9-1.9-1.9-1.9H65.9c-1,0-1.9,0.9-1.9,1.9V67c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9V38.3z M79,20.8  c0-1-0.9-1.9-1.9-1.9H20.9c-1,0-1.9,0.9-1.9,1.9V27c0,1,0.9,1.9,1.9,1.9h56.2c1,0,1.9-0.9,1.9-1.9V20.8z" />
+              </svg>
+            </div>
+          )}
+        </div>
+        <div className="md:col-span-4 max-md:col-span-12">
+          <ImportExport setFormat={setFormat} format={format} cands={cands} />
         </div>
 
-        <ImportExport setFormat={setFormat} format={format} cands={cands} />
-
-        <FiltersRow
-          setFilterCands={setFilterCands}
-          filterCands={filterCands}
-          cands={cands}
-          selectedCandidates={selectedCandidates}
-          setSelectedCandidates={setSelectedCandidates}
-        />
-
         {!loading && (
-          <>
+          <div className="max-md:col-span-12 md:col-span-8 ">
             {window.innerWidth > 768 && (
               <TableFormatData
                 loading={loading}
@@ -107,6 +220,9 @@ const MainCandList = () => {
                 format={format}
                 selectedCandidates={selectedCandidates}
                 handleCheckboxChange={handleCheckboxChange}
+                setSelectedCandidates={setSelectedCandidates}
+                allSelected={allSelected}
+                allCandidatesIds={allCandidatesIds}
               />
             )}
             <GridFormatData
@@ -116,7 +232,7 @@ const MainCandList = () => {
               selectedCandidates={selectedCandidates}
               handleCheckboxChange={handleCheckboxChange}
             />
-          </>
+          </div>
         )}
       </div>
     </PageTransition>
@@ -128,21 +244,36 @@ const TableFormatData = ({
   format,
   selectedCandidates,
   handleCheckboxChange,
+  setSelectedCandidates,
+  allSelected,
+  allCandidatesIds,
 }) => {
   return (
     <div
       id="cand-table-format"
       className={`${format === "table" ? "block" : "hidden"} mt-2 `}
     >
-      <div className="relative overflow-x-auto shadow-md ">
+      <div className="relative overflow-x-auto shadow-[rgba(6,_24,_44,_0.01)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset] rounded-3xl ">
         <table
           className="w-full text-sm text-left rtl:text-right text-black "
           align="center"
         >
-          <thead className="text-md text-center text-white uppercase bg-[#2176ff]">
+          <thead className="text-md text-center text-white uppercase bg-[#2176ff] ">
             <tr>
               {" "}
-              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">
+                <label className=" h-full flex items-center ">
+                  <input
+                    className="peer cursor-pointer hidden after:opacity-100"
+                    type="checkbox"
+                    checked={allSelected}
+                    onChange={() =>
+                      setSelectedCandidates(allSelected ? [] : allCandidatesIds)
+                    }
+                  />
+                  <span className="inline-block w-4 h-4 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#141414] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100" />
+                </label>
+              </th>
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
@@ -165,16 +296,16 @@ const TableFormatData = ({
                   <tr
                     className=" border-b text-center cursor-pointer hover:bg-slate-100"
                     onClick={() => {
-                      handleCheckboxChange(cand.docId);
+                      handleCheckboxChange(cand.docid);
                     }}
                   >
                     <td className="px-3 py-7 text-base capitalize ">
                       <label class=" h-full flex items-center ">
                         <input
                           class="peer cursor-pointer hidden after:opacity-100"
-                          checked={selectedCandidates.includes(cand.docId)}
+                          checked={selectedCandidates.includes(cand.docid)}
                           onChange={() => {
-                            handleCheckboxChange(cand.docId);
+                            handleCheckboxChange(cand.docid);
                           }}
                           type="checkbox"
                         />
@@ -182,8 +313,9 @@ const TableFormatData = ({
                       </label>
                     </td>
                     <td className="px-3 py-7 text-base capitalize ">
+                      {console.log(cand)}
                       <NavLink
-                        to={`/candidate-profile/${cand.docId} `}
+                        to={`/candidate-profile/${cand.docid} `}
                         className="hover:underline"
                       >{`${cand.firstName} ${cand.lastName}`}</NavLink>
                     </td>
@@ -320,7 +452,7 @@ const SearchingInput = ({ setFilterCands }) => {
         value={searchKeyword}
         ref={ref}
         onChange={handleSearchInputChange}
-        className="block w-full p-3 text-sm text-black pr-10 outline-none bg-gray-200"
+        className="block w-full p-3 text-sm text-black pr-10 outline-none bg-white rounded-full"
       />
 
       <button
@@ -339,252 +471,7 @@ const SearchingInput = ({ setFilterCands }) => {
   );
 };
 
-const FiltersRow = ({
-  setFilterCands,
-  cands,
-  selectedCandidates,
-  setSelectedCandidates,
-  filterCands,
-}) => {
-  const filterKeys = ["search", "status"];
-
-  const steps = [
-    { text: "N/A" },
-    { text: "Initial Call Attempt" },
-    { text: "Connected" },
-    { text: "Spoton/Candidate Research" },
-    { text: "Research & Prep Presentation" },
-    { text: "Present/Franchise Review" },
-    { text: "Intro to Zor" },
-    { text: "Franchise Due Diligence" },
-    { text: "Validation - FSO" },
-    { text: "Discovery Day/Award - FSO" },
-    { text: "Closed Won" },
-    { text: "Closed Lost" },
-    { text: "On Hold" },
-  ];
-  const actions = [
-    { text: "Bulk Actions" },
-    { text: "Delete" },
-    { text: "Update Lead Source" },
-    { text: "Update Deal Stage" },
-    { text: "Merge Candidates" },
-    { text: "Add Candidates to Hubspot" },
-  ];
-
-  const [allCandidatesIds, setAllCandidatesIds] = useState([]);
-  const [show, setShow] = useState(false);
-  const [allSelectedCandData, setAllSelectedCandData] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (cands && cands.length > 0) {
-      const docIds = cands.map((cand) => cand.docId);
-      const uniquedocIds = [...new Set(docIds)];
-      setAllCandidatesIds(uniquedocIds);
-    }
-  }, [cands]);
-
-  // useEffect(() => {
-  //   if (cands.length > 0) {
-  //     const filteredCands = filters
-  //       ? cands.filter((listing) => {
-  //           return filterKeys.every((key) => {
-  //             if (
-  //               filters.hasOwnProperty(key) &&
-  //               filters[key] !== "" &&
-  //               filters[key].length > 0
-  //             ) {
-  //               if (Array.isArray(filters[key]) && key === "search") {
-  //                 return filters["search"].some((searchString) =>
-  //                   listing.firstName.toLowerCase().includes(searchString)
-  //                 );
-  //               } else if (Array.isArray(filters[key]) && key === "status") {
-  //                 return filters["status"].some((searchString) =>
-  //                   listing.firstName.toLowerCase().includes(searchString)
-  //                 );
-  //               } else {
-  //                 return listing[key]
-  //                   ?.toLowerCase()
-  //                   .includes(filters[key].toLowerCase());
-  //               }
-  //             }
-  //             return true;
-  //           });
-  //         })
-  //       : cands;
-  //     setFilterCands(filteredCands);
-  //   }
-  // }, [cands, filters]);
-
-  useEffect(() => {
-    if (cands && cands.length > 0) {
-      const allMessages = cands.filter((cand) =>
-        selectedCandidates.includes(cand.docId)
-      );
-      setAllSelectedCandData(allMessages);
-    }
-  }, [selectedCandidates]);
-
-  const handleBulkActions = (e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    setFilterCands((prev) => ({
-      ...prev,
-      action: value,
-    }));
-  };
-  const arraysEqual = (arr1, arr2) => {
-    if (arr1.length !== arr2.length) return false;
-    const sortedArr1 = [...arr1].sort();
-    const sortedArr2 = [...arr2].sort();
-    return sortedArr1.every((value, index) => value === sortedArr2[index]);
-  };
-  const allSelected = arraysEqual(selectedCandidates, allCandidatesIds);
-
-  const handleStatusChange = (e) => {
-    e.preventDefault();
-    setFilterCands((prev) => ({
-      ...prev,
-      status: e.target.value,
-    }));
-  };
-
-  const handleEdit = async (e) => {
-    e.preventDefault();
-    //setLoading(true);
-
-    const url = "https://backend.ifbc.co/api/candidates/";
-
-    allSelectedCandData.map((cand) => {
-      const formData = {
-        ...cand,
-        isArchive: filterCands.action === "Archive" ? true : false,
-        DealStage: filterCands.action === "Update Deal Stage" ? true : false,
-      };
-
-      axios
-        .put(url + cand.docId, formData)
-        .then((response) => {
-          // // Handle successful response
-          if (response.status === 204) {
-            setShow(true);
-            setTimeout(() => {
-              setShow(false);
-              window.location.reload();
-            }, 3000);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {
-          // Handle error
-          setLoadingError(true);
-          console.error("Error fetching data:", error);
-        });
-    });
-    // Make a GET request to fetch the data
-  };
-
-  return (
-    <div
-      id="filters-dd"
-      className={`${filterCands?.action !== "Bulk Actions" ? "grid-cols-5" : "grid-cols-4"} md:grid  max-md:flex flex-col gap-5 mb-5`}
-    >
-      {allSelected ? (
-        <button
-          onClick={() => setSelectedCandidates([])}
-          id="select-all-btn"
-          className="candidate-btn w-full flex justify-center items-center gap-3"
-        >
-          Unselect
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-        </button>
-      ) : (
-        <button
-          onClick={() => setSelectedCandidates(allCandidatesIds)}
-          id="select-all-btn"
-          className="candidate-btn w-full flex justify-center items-center gap-3"
-        >
-          Select All
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-        </button>
-      )}
-      {/* yahan pr  dalengay select*/}
-      <select
-        className="candidate-select"
-        name="actions"
-        onChange={handleBulkActions}
-      >
-        {actions.map((step, index) => (
-          <option key={index} value={step.text}>
-            {step.text}
-          </option>
-        ))}
-      </select>
-
-      {filterCands?.action !== "Bulk Actions" && (
-        <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-full">
-          Confirm
-        </button>
-      )}
-
-      <select
-        className="candidate-select"
-        name="steps"
-        onChange={handleStatusChange}
-      >
-        {steps.map((step, index) => (
-          <option key={index} value={step.text}>
-            {step.text}
-          </option>
-        ))}
-      </select>
-
-      <div id="last-col-candlist" className="flex  items-center">
-        <label
-          htmlFor="default-checkbox"
-          className="flex items-center ms-2 text-sm font-medium text-slate-500 "
-        >
-          <input
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
-          />
-          View Archived Candidates
-        </label>
-      </div>
-    </div>
-  );
-};
-
-const ImportExport = ({ setFormat, format, cands }) => {
+const ImportExport = ({ cands, setFilterCands, filterCands }) => {
   const [show, setShow] = useState(false);
 
   const [jsonData, setJsonData] = useState(null);
@@ -753,8 +640,66 @@ const ImportExport = ({ setFormat, format, cands }) => {
       alert("Please upload a valid CSV file.");
     }
   };
+
+  const steps = [
+    { text: "Select Deal Stage" },
+    { text: "N/A" },
+    { text: "Initial Call Attempt" },
+    { text: "Connected" },
+    { text: "Spoton/Candidate Research" },
+    { text: "Research & Prep Presentation" },
+    { text: "Present/Franchise Review" },
+    { text: "Intro to Zor" },
+    { text: "Franchise Due Diligence" },
+    { text: "Validation - FSO" },
+    { text: "Discovery Day/Award - FSO" },
+    { text: "Closed Won" },
+    { text: "Closed Lost" },
+    { text: "On Hold" },
+  ];
+
+  const handleStatusChange = (e) => {
+    e.preventDefault();
+    setFilterCands((prev) => ({
+      ...prev,
+      status: e.target.value,
+    }));
+  };
+
   return (
-    <div className="flex gap-5 h-full">
+    <div className="flex flex-col gap-5 mt-3">
+      <div
+        id="filters-dd"
+        className={`${filterCands?.action !== "Bulk Actions" ? "grid-cols-5" : "grid-cols-4"}   flex flex-col gap-5 `}
+      >
+        <select
+          className="candidate-select"
+          name="steps"
+          onChange={handleStatusChange}
+        >
+          {steps.map((step, index) => (
+            <option key={index} value={step.text}>
+              {step.text}
+            </option>
+          ))}
+        </select>
+
+        <div id="last-col-candlist" className="flex  items-center">
+          <label
+            htmlFor="default-checkbox"
+            className="flex items-center ms-2 text-sm font-medium text-slate-500 "
+          >
+            <input
+              id="default-checkbox"
+              type="checkbox"
+              defaultValue
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
+            />
+            View Archived Candidates
+          </label>
+        </div>
+      </div>
+
       <button
         className="candidate-btn w-full"
         onClick={() => handleExport(cands)}
@@ -764,35 +709,6 @@ const ImportExport = ({ setFormat, format, cands }) => {
       <button className="candidate-btn w-full" onClick={() => setShow(true)}>
         Import
       </button>
-
-      {window.innerWidth > 768 && (
-        <div id="formatchanger" className="flex items-center">
-          <svg
-            onClick={() => setFormat("table")}
-            xmlns="http://www.w3.org/2000/svg"
-            fill={`${format === "table" ? "rgb(33 118 255)" : "black"}`}
-            className="w-8 h-8 cursor-pointer"
-            viewBox="0 0 100 100"
-          >
-            <rect x={19} y="18.92" width={60} height={16} rx={4} ry={4} />
-            <rect x={19} y="40.92" width={27} height={16} rx={4} ry={4} />
-            <rect x={19} y="62.92" width={27} height={16} rx={4} ry={4} />
-            <path d="M64.95,72.49a1.45,1.45,0,0,0,2.1,0l11.5-11.4a1.45,1.45,0,0,0,0-2.1L67,47.49a1.45,1.45,0,0,0-2.1,0l-2.1,2.1a1.45,1.45,0,0,0,0,2.1l3.6,3.6a1,1,0,0,1-.7,1.7H53.6a1.63,1.63,0,0,0-1.6,1.5v3A1.71,1.71,0,0,0,53.6,63H65.75a1,1,0,0,1,.7,1.7l-3.6,3.6a1.45,1.45,0,0,0,0,2.1Z" />
-          </svg>
-
-          <svg
-            onClick={() => setFormat("grid")}
-            xmlns="http://www.w3.org/2000/svg"
-            fill={`${format === "grid" ? "rgb(33 118 255)" : "black"}`}
-            className="w-8 h-8 cursor-pointer"
-            viewBox="0 0 100 100"
-            enableBackground="new 0 0 100 100"
-            xmlSpace="preserve"
-          >
-            <path d="M56.5,38.3c0-1-0.9-1.9-1.9-1.9H43.4c-1,0-1.9,0.9-1.9,1.9V72c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9  V38.3z M34,38.3c0-1-0.9-1.9-1.9-1.9H20.9c-1,0-1.9,0.9-1.9,1.9V77c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9V38.3z M79,38.3  c0-1-0.9-1.9-1.9-1.9H65.9c-1,0-1.9,0.9-1.9,1.9V67c0,1,0.9,1.9,1.9,1.9h11.2c1,0,1.9-0.9,1.9-1.9V38.3z M79,20.8  c0-1-0.9-1.9-1.9-1.9H20.9c-1,0-1.9,0.9-1.9,1.9V27c0,1,0.9,1.9,1.9,1.9h56.2c1,0,1.9-0.9,1.9-1.9V20.8z" />
-          </svg>
-        </div>
-      )}
 
       <DialogBox show={show} setShow={setShow}>
         <div className="p-10 flex flex-col relative gap-3 items-center text-center">

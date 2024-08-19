@@ -19,7 +19,7 @@ const CandidatesDataContext = ({ children }) => {
       : null;
   //const dispatch = useDispatch();
 
-  const url = `https://backend.ifbc.co/api/candidates`;
+  const url = `https://backend.ifbc.co/api/candidateprofile`;
   const { data, isLoading, error } = useQuery("CANDIDATES", () => {
     if (role && role !== "N") {
       return axios.get(url);
@@ -32,6 +32,7 @@ const CandidatesDataContext = ({ children }) => {
       const filtered = data?.data?.filter(
         (cand) => cand?.agentUserId === userDetails?.docId
       );
+
       setCands(filtered);
     }
     // Make a GET request to fetch the data

@@ -94,7 +94,7 @@ const Eligibility = ({
     >
       <HorizontalNonLinearStepper activeStep={step} setActiveStep={setStep} />
 
-      <div className="col-span-7 p-6">
+      <div className="max-md:col-span-12 md:col-span-7 p-6">
         <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -10,6 +10,7 @@ import {
   validatePhone,
   validateUsername,
 } from "src/Utils/SanitizeInput";
+import PolicyContent from "../GlobalPageSections/PolicyContent";
 
 const QualifyConsultant = () => {
   const [formFields, setFormFields] = useState({});
@@ -541,7 +542,7 @@ const QualifyConsultant = () => {
               </select>
             </div>
           </div>
-
+          <PolicyContent isContact={true} />
           <div className="flex justify-center w-full">
             <button
               className="candidate-btn md:w-44 max-md:w-full"

@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { motion, useInView } from "framer-motion";
 
 const TextColumn = () => {
   const loc = useLocation();
@@ -17,8 +18,24 @@ const TextColumn = () => {
     },
   ];
 
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
-    <div className="col-span-6 order-2 md:order-1">
+    <motion.div
+      className="col-span-6 order-2 md:order-1"
+      initial="hidden"
+      whileInView="visible"
+      viewport={inViewOptions}
+      variants={scrollVariants}
+      transition={{ duration: 1 }}
+    >
       <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit">
         Who we are?
       </h1>
@@ -91,19 +108,40 @@ const TextColumn = () => {
           </div>
         </NavLink>
       )}
-    </div>
+    </motion.div>
   );
 };
 
 const ImageColumn = () => {
+  // Scroll animation variants
+  const scrollVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0 },
+  };
+
+  // Hook to detect if the element is in view
+  const inViewOptions = { triggerOnce: true, threshold: 0.1 };
+
   return (
-    <div className="col-span-6 mt-5 md:mt-0 order-1 md:order-2 mb-5 md:mb-0">
+    <motion.div
+      className="col-span-6 mt-5 md:mt-0 order-1 md:order-2 mb-5 md:mb-0"
+      initial="hidden"
+      whileInView="visible"
+      viewport={inViewOptions}
+      variants={scrollVariants}
+      transition={{ duration: 1 }}
+    >
       <div className="flex w-full relative justify-end">
         <img
           src="/images/home-seven/business.png"
           className="md:max-w-[85%] h-[350px] md:h-[650px] object-cover rounded-3xl"
         />
-        <div className="bg-it-blue p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-2 sm:left-0 w-48 sm:w-[295px]">
+        <motion.div
+          className="bg-it-blue p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-2 sm:left-0 w-48 sm:w-[295px]"
+          initial={{ opacity: 0, scale: 0.7 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5 }}
+        >
           <img
             src="/images/home-five/hero/about-card-shape.webp"
             className="absolute right-2 top-bottom-moving "
@@ -135,9 +173,9 @@ const ImageColumn = () => {
           >
             25+ Years of Experience
           </h1>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
