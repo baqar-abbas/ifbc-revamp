@@ -249,6 +249,8 @@ const HomeBanner = () => {
           />
         ))}
       </div>
+
+      <hr className="border-t-8 border-orange-500 mx-5" />
     </>
   );
 };
