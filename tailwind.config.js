@@ -17,6 +17,7 @@ export default {
         "custom-grey": "#31393c",
         "custom-yellow": "#fdca40",
         "custom-orange": "#f79824",
+        "custom-button-color": "rgba(30, 32, 30)",
       },
     },
     screens: {

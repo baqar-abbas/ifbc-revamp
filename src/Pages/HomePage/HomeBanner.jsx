@@ -380,9 +380,10 @@ const SearchingSection = () => {
           setActiveDD={setActiveDD}
         />
       ))}
+      {/* Add a hover class to button */}
       <motion.button
         type="submit"
-        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
+        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-custom-button-color/90 h-12 text-center text-white rounded-lg"
         initial="hiddenBtn"
         whileInView="visible"
         viewport={inViewOptions}
