@@ -36,9 +36,7 @@ const TextColumn = () => {
       variants={scrollVariants}
       transition={{ duration: 1 }}
     >
-      <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit">
-        Who we are?
-      </h1>
+      {/* <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit"> */}
       <h2 className="font-bold md:text-4xl max-md:text-2xl text-custom-heading-color mt-5">
         About IFBC
       </h2>
@@ -50,13 +48,13 @@ const TextColumn = () => {
         approach to your entrepreneurial journey.
       </p>
 
-      <ul className="mb-[30px] max-w-full">
+      <ul className="mb-[30px] max-w-full flex max-md:flex-col">
         {listItems.map((item, index) => (
           <li
             key={index}
             className="flex flex-col sm:flex-row gap-[10px] items-start mt-6"
           >
-            <div className="w-[30px] aspect-square rounded-full bg-it-blue flex items-center justify-center">
+            <div className="w-[30px] aspect-square rounded-full bg-[#f18121] flex items-center justify-center">
               <svg
                 width={16}
                 height={11}
@@ -68,7 +66,7 @@ const TextColumn = () => {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M14.6907 0.612031C15.1811 0.993484 15.2695 1.70029 14.888 2.19073L8.87753 9.91852C7.94196 11.1214 6.18214 11.2775 5.04945 10.2581L1.24742 6.83626C0.785601 6.42062 0.748162 5.70929 1.1638 5.24747C1.57945 4.78564 2.29077 4.7482 2.75259 5.16385L6.55462 8.58567C6.71643 8.7313 6.96783 8.709 7.10149 8.53716L13.112 0.809368C13.4934 0.318928 14.2003 0.230577 14.6907 0.612031Z"
-                  fill="white"
+                  fill="black"
                 />
               </svg>
             </div>
@@ -108,6 +106,52 @@ const TextColumn = () => {
           </div>
         </NavLink>
       )}
+
+      {/* <div
+        className="p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-40 sm:left-0 w-48 sm:w-[295px]"
+        // initial={{ opacity: 0, scale: 0.7 }}
+        // whileInView={{ opacity: 1, scale: 1 }}
+        // transition={{ duration: 1.5 }}
+      >
+        <img
+          src="/images/home-five/hero/experience.png"
+          // className="absolute right-2 top-bottom-moving "
+        />
+        <div className="flex items-center gap-2.5">
+          <svg
+            width={11}
+            height={12}
+            viewBox="0 0 11 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.28753 7.01343L8.90454 1.36956M8.90454 1.36956L3.26066 1.75255M8.90454 1.36956L1.01321 10.4099"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="text-sm text-white leading-8">We have</span>
+        </div>
+        <h1
+          className="text-[27px] leading-[35px] text-white font-semibold tracking-tight max-w-[170px]"
+          data-scroll-qs="scroll"
+          data-count-qs={25}
+          data-type-qs="+ Years of Experience"
+          data-speed-qs={1000}
+        >
+          25+ Years of Experience
+        </h1>
+      </div> */}
+      {/* <div className="p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-40 sm:left-0 w-48 sm:w-[295px]"> */}
+      {/* <div className="p-4 w-40 h-40 custom-image-class ">
+        <img
+          src="/images/home-five/hero/experience.png"
+          // className="absolute right-2 top-bottom-moving "
+        />
+      </div> */}
     </motion.div>
   );
 };
@@ -131,12 +175,21 @@ const ImageColumn = () => {
       variants={scrollVariants}
       transition={{ duration: 1 }}
     >
-      <div className="flex w-full relative justify-end">
+      <div className="py-2 my-2 bg-gradient-to-r from-[#f18121] to-transparent h-10 w-[12%]">
+        <h1 className="px-5 h-10 text-black font-medium rounded-[2px] w-fit mb-5">
+          Who we are?
+        </h1>
+      </div>
+      <div className="flex w-full relative justify-end custom-groove-border">
+        <img
+          src="/images/home-seven/businesssecond.png"
+          className="w-full h-[350px] md:h-[300px] object-contain hidden md:block"
+        />
         <img
           src="/images/home-seven/business.png"
-          className="md:max-w-[85%] h-[350px] md:h-[650px] object-cover rounded-3xl"
+          className="w-full h-full object-contain md:hidden max-md:block"
         />
-        <motion.div
+        {/* <motion.div
           className="bg-it-blue p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-2 sm:left-0 w-48 sm:w-[295px]"
           initial={{ opacity: 0, scale: 0.7 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -173,7 +226,7 @@ const ImageColumn = () => {
           >
             25+ Years of Experience
           </h1>
-        </motion.div>
+        </motion.div> */}
       </div>
     </motion.div>
   );
@@ -182,9 +235,9 @@ const ImageColumn = () => {
 const About = () => {
   return (
     <section className="py-[30px] bg-white my-10">
-      <div className="theme-container mx-auto grid grid-cols-6 lg:grid-cols-12 sm:gap-[63px]">
-        <TextColumn />
+      <div className="theme-container mx-auto sm:gap-[63px]">
         <ImageColumn />
+        <TextColumn />
       </div>
     </section>
   );

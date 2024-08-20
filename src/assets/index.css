@@ -130,7 +130,7 @@
   background-color: #5b99c2;
 }
 
-.custom-btn-class{
+.custom-btn-class {
   padding: 10px 20px;
   text-align: center;
   display: inline-block;
@@ -141,6 +141,17 @@
   /* border-radius: 5px; */
 }
 
+.custom-image-class {
+  position: absolute !important;
+  left: 75%;
+}
+/* Make a groove border */
+.custom-groove-border {
+  /* border: 5px groove #bec5c9; */
+  border-top: 5px groove #bec5c9;
+  border-bottom: 5px groove #bec5c9;
+  padding: 5px;
+}
 /* .appointment-btn {
   padding: 10px 20px;
   text-align: center;
@@ -254,7 +265,7 @@
   height: 94% !important;
   /* margin-top: 0.3rem !important; */
   margin-left: 2.5rem;
-  object-fit:cover;
+  object-fit: cover;
 }
 
 .mobile-video {
@@ -356,6 +367,13 @@
   .custom-btn-class {
     margin: 4px 3%;
     width: 95%;
+  }
+
+  .custom-groove-border {
+    /* border: 5px groove #bec5c9; */
+    border-top: none;
+    border-bottom: none;
+    padding: 0;
   }
 
   /* .appointment-btn {
